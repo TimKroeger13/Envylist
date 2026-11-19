@@ -9,11 +9,8 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -34,11 +31,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -56,20 +51,17 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardCapitalization
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import app.neidliste.R
 
 /**
- * Bottom input bar that rides on top of the keyboard, like a messenger. Stays open so several
- * tasks can be added in a row; added ones show up as little ✓ chips.
+ * Bottom input bar that rides on top of the keyboard, like a messenger.
+ * Type one task, tap + and it closes again.
  */
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun QuickAddSheet(listName: String, onAdd: (String) -> Unit, onClose: () -> Unit) {
     var text by remember { mutableStateOf("") }
-    val added = remember { mutableStateListOf<String>() }
     val focus = remember { FocusRequester() }
     val keyboard = LocalSoftwareKeyboardController.current
     val haptics = LocalHapticFeedback.current
@@ -81,13 +73,14 @@ fun QuickAddSheet(listName: String, onAdd: (String) -> Unit, onClose: () -> Unit
     val closeFromOutside = { if (SystemClock.uptimeMillis() - openedAt > 400) onClose() }
     val scrim by animateFloatAsState(if (visible) 0.25f else 0f, tween(200), label = "scrim")
 
+    // One task per opening: add it and close.
     fun submit() {
         val title = text.trim()
         if (title.isEmpty()) return
-        onAdd(title)
-        added.add(0, title)
-        text = ""
         haptics.performHapticFeedback(HapticFeedbackType.Confirm)
+        onAdd(title)
+        keyboard?.hide()
+        onClose()
     }
 
     val noRipple = remember { MutableInteractionSource() }
@@ -129,35 +122,12 @@ fun QuickAddSheet(listName: String, onAdd: (String) -> Unit, onClose: () -> Unit
                             .clip(CircleShape)
                             .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f)),
                     )
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            listName,
-                            style = MaterialTheme.typography.titleSmall,
-                            color = MaterialTheme.colorScheme.primary,
-                            modifier = Modifier.weight(1f).padding(start = 4.dp),
-                        )
-                        TextButton(onClick = onClose) { Text(stringResource(R.string.done_button)) }
-                    }
-                    if (added.isNotEmpty()) {
-                        FlowRow(
-                            horizontalArrangement = Arrangement.spacedBy(6.dp),
-                            verticalArrangement = Arrangement.spacedBy(6.dp),
-                            modifier = Modifier.padding(bottom = 10.dp),
-                        ) {
-                            added.take(6).forEach { title ->
-                                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer) {
-                                    Text(
-                                        "✓ ${title.lineSequence().first()}",
-                                        maxLines = 1,
-                                        overflow = TextOverflow.Ellipsis,
-                                        style = MaterialTheme.typography.labelLarge,
-                                        color = MaterialTheme.colorScheme.onSecondaryContainer,
-                                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
-                                    )
-                                }
-                            }
-                        }
-                    }
+                    Text(
+                        listName,
+                        style = MaterialTheme.typography.titleSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(start = 6.dp, top = 6.dp, bottom = 10.dp),
+                    )
                     Row(verticalAlignment = Alignment.Bottom) {
                         Surface(
                             shape = RoundedCornerShape(26.dp),

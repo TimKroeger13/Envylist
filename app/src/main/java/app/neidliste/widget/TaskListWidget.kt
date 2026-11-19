@@ -74,7 +74,7 @@ class TaskListWidgetReceiver : GlanceAppWidgetReceiver() {
  */
 class TaskListWidget : GlanceAppWidget() {
 
-    override val sizeMode: SizeMode = SizeMode.Exact
+    override val sizeMode: SizeMode = SizeMode.Single // always fills the real space the launcher gives; nothing gets cut off
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val repo = context.container.repository
@@ -108,7 +108,7 @@ private fun WidgetBody(board: Board?, listId: Long, appWidgetId: Int) {
             .fillMaxSize()
             .background(GlanceTheme.colors.widgetBackground)
             .cornerRadius(24.dp)
-            .padding(horizontal = 10.dp, vertical = 8.dp),
+            .padding(horizontal = 10.dp, vertical = 10.dp),
     ) {
         when {
             board == null -> Unit
