@@ -67,44 +67,4 @@
     <string name="cd_more">More</string>
     <string name="cd_back">Back</string>
 
-    <string-array name="envy_mild">
-        <item>Hello? I\'m still here 👀</item>
-        <item>Psst… me next?</item>
-        <item>I\'m waiting too, you know 🙂</item>
-    </string-array>
-    <string-array name="envy_annoyed">
-        <item>Not me again?! 😒</item>
-        <item>Hmpf. Always the others.</item>
-        <item>I\'m starting to take this personally 🙄</item>
-    </string-array>
-    <string-array name="envy_angry">
-        <item>I\'m getting seriously jealous 😤</item>
-        <item>That\'s it, I\'m counting! 😠</item>
-        <item>What do they have that I don\'t?! 😤</item>
-    </string-array>
-    <string-array name="envy_objection_short">
-        <item>I object! 🤬</item>
-        <item>My turn. Now. 😡</item>
-        <item>Not one more before me! 😡</item>
-    </string-array>
-    <string-array name="envy_objection_long">
-        <item>Hold on! I\'ve been waiting for %1$d finished tasks – and now „%2$s“ gets to go before me?!</item>
-        <item>Seriously? %1$d tasks have already overtaken me. And „%2$s“ jumps the queue again?</item>
-        <item>I watched %1$d times. Not again! „%2$s“ can wait – it\'s MY turn! 😤</item>
-    </string-array>
-    <string-array name="envy_kick">
-        <item>Make way! It\'s my turn now 😤</item>
-        <item>Step aside, coming through! 💪</item>
-        <item>That\'s it – I\'m going to the front! 😠</item>
-    </string-array>
-    <string-array name="envy_thanks">
-        <item>Yay! Thank you! 🥰</item>
-        <item>Finally! I knew you liked me best 💛</item>
-        <item>Let\'s go! 💪</item>
-    </string-array>
-    <string-array name="envy_huff">
-        <item>Hmpf. Fine. I\'ll remember this. 😾</item>
-        <item>Wow. Just wow. 😤</item>
-        <item>Okay… I\'ll keep waiting then. 🥲</item>
-    </string-array>
 </resources>

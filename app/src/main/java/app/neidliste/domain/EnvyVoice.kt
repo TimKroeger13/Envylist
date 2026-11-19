@@ -20,7 +20,7 @@ object EnvyVoice {
     }
 
     fun objection(context: Context, objector: TaskItem, other: TaskItem): String =
-        pick(context, R.array.envy_objection_long, objector.envy.toLong())
+        pick(context, R.array.envy_objection_long, objector.envy * 7L + other.id * 13L)
             .format(objector.envy, other.title)
 
     fun kick(context: Context, item: TaskItem): String = pick(context, R.array.envy_kick, item.id + item.envy)

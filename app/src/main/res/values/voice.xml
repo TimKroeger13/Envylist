@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    The voice of the tasks. Just add lines, the app picks from them automatically.
+    Always write apostrophes as \'.
+-->
+<resources>
+
+    <!-- Level 1: slightly jealous – polite, shy, trying hard -->
+    <string-array name="envy_mild">
+        <item>Hello? I\'m still here 👀</item>
+        <item>Psst… me next?</item>
+        <item>I\'m waiting too, you know 🙂</item>
+        <item>No pressure. Well… a little pressure.</item>
+        <item>I\'ll just stand over here then.</item>
+        <item>Quick question: do I still exist?</item>
+        <item>I even dressed up for you 👉👈</item>
+        <item>I\'ll be super quick, promise!</item>
+        <item>Um… hi? *waves* 👋</item>
+        <item>Good for the others. Really. 🙂</item>
+        <item>Making a note: overlooked.</item>
+        <item>I\'m patient. For now.</item>
+    </string-array>
+
+    <!-- Level 2: annoyed – passive-aggressive, eye rolls -->
+    <string-array name="envy_annoyed">
+        <item>Not me again?! 😒</item>
+        <item>Hmpf. Always the others.</item>
+        <item>I\'m starting to take this personally 🙄</item>
+        <item>Oh, so that one is more important. Interesting.</item>
+        <item>I\'m not counting. It\'s been quite a few, by the way.</item>
+        <item>What does it have that I don\'t?</item>
+        <item>I\'m not saying anything. I\'m just thinking it. 😑</item>
+        <item>Great. Just great. Really, really great.</item>
+        <item>I feel like the last slice of pizza nobody wants.</item>
+        <item>I\'ve been here forever, but okay. 🙄</item>
+        <item>You do know I\'m on the list too, right?</item>
+        <item>I\'m not angry. I\'m disappointed. 😒</item>
+    </string-array>
+
+    <!-- Level 3: really jealous – loud, dramatic -->
+    <string-array name="envy_angry">
+        <item>I\'m getting seriously jealous 😤</item>
+        <item>That\'s it, I\'m counting! 😠</item>
+        <item>What do they have that I don\'t?! 😤</item>
+        <item>This is task discrimination! 😠</item>
+        <item>I\'m about to file a complaint. With the boss. That\'s you.</item>
+        <item>My pulse is at 180! 😤</item>
+        <item>I never did anything to you! 😢😠</item>
+        <item>Dramatic sigh. Very dramatic. 😤</item>
+        <item>I\'m losing my patience. And my composure.</item>
+        <item>One more before me and I\'ll lose it! 😠</item>
+        <item>I want to speak to the manager! 😤</item>
+        <item>Notice something? Because I do! 😠</item>
+    </string-array>
+
+    <!-- Objection level, short line in the list -->
+    <string-array name="envy_objection_short">
+        <item>I object! 🤬</item>
+        <item>My turn. Now. 😡</item>
+        <item>Not one more before me! 😡</item>
+        <item>IT. IS. MY. TURN. 🤬</item>
+        <item>I\'m about to go on strike! 🤬</item>
+        <item>Enough! I\'m next! 😡</item>
+        <item>I\'ve had it up to here! 🤬</item>
+        <item>Do me first or I\'m moving out! 😡</item>
+        <item>I\'m calling the task union! 🤬</item>
+        <item>No more excuses! 😡</item>
+        <item>No more queue jumpers! 🤬</item>
+        <item>Red card for everyone else! 🤬</item>
+    </string-array>
+
+    <!-- Objection dialog: %1$d = envy points, %2$s = the task you want to start -->
+    <string-array name="envy_objection_long">
+        <item>Hold on! I\'ve been waiting for %1$d finished tasks – and now „%2$s“ gets to go before me?!</item>
+        <item>Seriously? %1$d tasks have already overtaken me. And „%2$s“ jumps the queue again?</item>
+        <item>I watched %1$d times. Not again! „%2$s“ can wait – it\'s MY turn! 😤</item>
+        <item>„%2$s“?! Really?! I\'ve been standing here for %1$d rounds and get ignored! 🤬</item>
+        <item>Stop! Before you start „%2$s“: you\'ve passed me over %1$d times. Enough!</item>
+        <item>Do you know how it feels not to be picked %1$d times? And now „%2$s“ too? 😢</item>
+        <item>I bit my tongue %1$d times. But „%2$s“ is where I draw the line! 😡</item>
+        <item>Just so we\'re clear: %1$d tasks before me. „%2$s“ would be one more. 🤬</item>
+        <item>Hello?! I\'m still here! For %1$d tasks! What\'s with „%2$s“?</item>
+        <item>I officially protest against „%2$s“! Waiting time: %1$d tasks. Outrageous! 🪧</item>
+        <item>„%2$s“ just cut in line and I\'ve been waiting %1$d rounds. Just saying. 😤</item>
+        <item>You\'re about to make a big mistake. I waited %1$d times. Choose wisely. 🤨</item>
+    </string-array>
+
+    <!-- Kick: the task shoves itself to the top -->
+    <string-array name="envy_kick">
+        <item>Make way! It\'s my turn now 😤</item>
+        <item>Step aside, coming through! 💪</item>
+        <item>That\'s it – I\'m going to the front! 😠</item>
+        <item>Cutting in line? I can do that too! 😏</item>
+        <item>Bye bottom! Hello top! 👋</item>
+        <item>Task incoming! 🚀</item>
+        <item>I\'ve waited long enough. I\'m taking that spot! 👑</item>
+        <item>Wait too long and out come the elbows! 💥</item>
+        <item>Surprise! I\'m on top now. 😈</item>
+        <item>Clear the way! 🏃</item>
+        <item>You had your chance. Now it\'s me! 😤</item>
+        <item>Just pushed myself to the front. Sorry, not sorry. 😎</item>
+    </string-array>
+
+    <!-- "Fine, you first" -->
+    <string-array name="envy_thanks">
+        <item>Yay! Thank you! 🥰</item>
+        <item>Finally! I knew you liked me best 💛</item>
+        <item>Let\'s go! 💪</item>
+        <item>Oh! Really? I\'m touched 🥹</item>
+        <item>You\'re the best! ✨</item>
+        <item>I knew I could count on you 🤝</item>
+        <item>My day is saved! 🌈</item>
+        <item>Yesss! My turn! 🎉</item>
+        <item>Thanks! I\'ll do my very best! 😊</item>
+        <item>I\'ll never forget this! 💖</item>
+        <item>Ahh, finally being seen 🥰</item>
+        <item>Good call! Best one today! 👍</item>
+    </string-array>
+
+    <!-- "Sorry, doing it anyway" -->
+    <string-array name="envy_huff">
+        <item>Hmpf. Fine. I\'ll remember this. 😾</item>
+        <item>Wow. Just wow. 😤</item>
+        <item>Okay… I\'ll keep waiting then. 🥲</item>
+        <item>It\'s fine. I\'m just a task. 😔</item>
+        <item>I\'m writing this in my diary. 📓</item>
+        <item>This will have consequences! 😠</item>
+        <item>I\'m not saying anything anymore. Nothing. Ever. … Or soon. 😶</item>
+        <item>Go ahead. I\'ll be here. As always. 🙃</item>
+        <item>Remember this moment. I certainly will. 😑</item>
+        <item>Typical. Just typical. 🙄</item>
+        <item>I\'m not offended. I\'m just… offended. 😤</item>
+        <item>If I had eyes, I\'d roll them right now. 🙄</item>
+    </string-array>
+</resources>

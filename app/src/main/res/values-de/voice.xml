@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Die Stimme der Aufgaben. Einfach Zeilen ergänzen, die App wählt automatisch daraus.
+    Apostrophe immer als \' schreiben.
+-->
+<resources>
+
+    <!-- Stufe 1: leicht neidisch – höflich, schüchtern, ein bisschen bemüht -->
+    <string-array name="envy_mild">
+        <item>Hallo? Ich bin auch noch da 👀</item>
+        <item>Psst… bin ich als Nächstes dran?</item>
+        <item>Ich warte übrigens auch 🙂</item>
+        <item>Kein Stress. Also… ein bisschen Stress.</item>
+        <item>Ich steh dann mal hier rum.</item>
+        <item>Nur so ne Frage: Gibt\'s mich noch?</item>
+        <item>Ich hab mich extra hübsch gemacht 👉👈</item>
+        <item>Ich bin auch ganz schnell erledigt, versprochen!</item>
+        <item>Ähm… hallo? *wink* 👋</item>
+        <item>Schön für die anderen. Wirklich. 🙂</item>
+        <item>Ich mach mir mal ne Notiz: übersehen worden.</item>
+        <item>Ich bin geduldig. Noch.</item>
+    </string-array>
+
+    <!-- Stufe 2: genervt – passiv-aggressiv, Augenrollen -->
+    <string-array name="envy_annoyed">
+        <item>Schon wieder nicht ich?! 😒</item>
+        <item>Hmpf. Immer die anderen.</item>
+        <item>Ich nehm das langsam persönlich 🙄</item>
+        <item>Ach, die ist also wichtiger. Interessant.</item>
+        <item>Ich zähl nicht mit. Es waren übrigens schon einige.</item>
+        <item>Was hat die, was ich nicht hab?</item>
+        <item>Ich sag ja nix. Ich denk mir nur meinen Teil. 😑</item>
+        <item>Toll. Ganz toll. Wirklich ganz toll.</item>
+        <item>Ich fühl mich wie das letzte Stück Pizza, das keiner will.</item>
+        <item>Ich steh hier seit Ewigkeiten, aber okay. 🙄</item>
+        <item>Du weißt schon, dass ich auch auf der Liste steh?</item>
+        <item>Ich bin nicht sauer. Ich bin enttäuscht. 😒</item>
+    </string-array>
+
+    <!-- Stufe 3: richtig neidisch – laut, dramatisch -->
+    <string-array name="envy_angry">
+        <item>Ich werde langsam richtig neidisch 😤</item>
+        <item>So, ich zähl jetzt mit! 😠</item>
+        <item>Was haben die, was ich nicht hab?! 😤</item>
+        <item>Das ist Diskriminierung von Aufgaben! 😠</item>
+        <item>Ich bin kurz davor, mich zu beschweren. Beim Chef. Also bei dir.</item>
+        <item>Mein Puls ist auf 180! 😤</item>
+        <item>Ich hab dir nie was getan! 😢😠</item>
+        <item>Dramatischer Seufzer. Sehr dramatisch. 😤</item>
+        <item>Ich verliere langsam die Geduld. Und die Fassung.</item>
+        <item>Noch so eine vor mir und ich raste aus! 😠</item>
+        <item>Ich will mit dem Manager sprechen! 😤</item>
+        <item>Merkst du was? Ich merk was! 😠</item>
+    </string-array>
+
+    <!-- Einspruch-Stufe, kurze Zeile in der Liste -->
+    <string-array name="envy_objection_short">
+        <item>Einspruch! 🤬</item>
+        <item>Ich bin dran. Jetzt. 😡</item>
+        <item>Keine einzige mehr vor mir! 😡</item>
+        <item>ICH. BIN. DRAN. 🤬</item>
+        <item>Ich streike gleich! 🤬</item>
+        <item>Das reicht! Ich bin die Nächste! 😡</item>
+        <item>Ich hab die Faxen dicke! 🤬</item>
+        <item>Mach mich zuerst oder ich zieh aus! 😡</item>
+        <item>Ich rufe den Aufgaben-Betriebsrat! 🤬</item>
+        <item>Keine Ausreden mehr! 😡</item>
+        <item>Ich dulde keine Vordrängler mehr! 🤬</item>
+        <item>Rote Karte für alle anderen! 🤬</item>
+    </string-array>
+
+    <!-- Einspruch-Dialog: %1$d = Neidpunkte, %2$s = die Aufgabe, die du anfangen willst -->
+    <string-array name="envy_objection_long">
+        <item>Moment mal! Ich warte schon seit %1$d erledigten Aufgaben – und jetzt soll „%2$s“ vor mir dran sein?!</item>
+        <item>Echt jetzt? %1$d Aufgaben sind schon an mir vorbeigezogen. Und „%2$s“ darf schon wieder vor?</item>
+        <item>Ich hab %1$d Mal zugesehen. Nicht schon wieder! „%2$s“ kann warten – ICH bin dran! 😤</item>
+        <item>„%2$s“?! Ernsthaft?! Ich steh hier seit %1$d Runden und werde ignoriert! 🤬</item>
+        <item>Stopp! Bevor du „%2$s“ anfängst: %1$d Mal hast du mich schon übergangen. Das reicht!</item>
+        <item>Weißt du, wie es sich anfühlt, %1$d Mal nicht gewählt zu werden? Und jetzt auch noch „%2$s“? 😢</item>
+        <item>Ich hab mir %1$d Mal auf die Zunge gebissen. Aber bei „%2$s“ ist Schluss! 😡</item>
+        <item>Nur damit das klar ist: %1$d Aufgaben vor mir. Und „%2$s“ wäre Nummer %1$d plus eins. 🤬</item>
+        <item>Hallo?! Ich bin auch noch da! Seit %1$d Aufgaben! Was soll das mit „%2$s“?</item>
+        <item>Ich protestiere offiziell gegen „%2$s“! Wartezeit: %1$d Aufgaben. Zumutung! 🪧</item>
+        <item>„%2$s“ hat sich gerade vorgedrängelt und ich warte seit %1$d Runden. Ich sag\'s nur. 😤</item>
+        <item>Du bist dabei, einen großen Fehler zu machen. %1$d Mal hab ich gewartet. Wähl weise. 🤨</item>
+    </string-array>
+
+    <!-- Drängeln: die Aufgabe setzt sich selbst nach oben -->
+    <string-array name="envy_kick">
+        <item>Platz da! Jetzt bin ich dran 😤</item>
+        <item>Zur Seite, ich komm durch! 💪</item>
+        <item>So, jetzt reicht\'s – ich geh nach vorne! 😠</item>
+        <item>Vordrängeln? Kann ich auch! 😏</item>
+        <item>Tschüss, hinten! Hallo, oben! 👋</item>
+        <item>Achtung, Aufgabe im Anmarsch! 🚀</item>
+        <item>Ich hab genug gewartet. Ich nehm mir jetzt den Platz! 👑</item>
+        <item>Wer zu lange wartet, nimmt die Ellenbogen! 💥</item>
+        <item>Überraschung! Ich bin jetzt ganz oben. 😈</item>
+        <item>Bahn frei! 🏃</item>
+        <item>Ihr hattet eure Chance. Jetzt ich! 😤</item>
+        <item>Ich hab mich mal eben nach vorne geschoben. Sorry, nicht sorry. 😎</item>
+    </string-array>
+
+    <!-- "Na gut, du zuerst" -->
+    <string-array name="envy_thanks">
+        <item>Juhu! Danke! 🥰</item>
+        <item>Endlich! Ich wusste, du magst mich am liebsten 💛</item>
+        <item>Auf geht\'s! 💪</item>
+        <item>Oh! Wirklich? Ich bin gerührt 🥹</item>
+        <item>Du bist die Beste! Oder der Beste! Auf jeden Fall toll! ✨</item>
+        <item>Ich wusste, auf dich ist Verlass 🤝</item>
+        <item>Mein Tag ist gerettet! 🌈</item>
+        <item>Jaaa! Ich bin dran! 🎉</item>
+        <item>Danke! Ich geb mir auch ganz viel Mühe! 😊</item>
+        <item>Das vergess ich dir nie! 💖</item>
+        <item>Hach, endlich gesehen werden 🥰</item>
+        <item>Gute Entscheidung! Die beste heute! 👍</item>
+    </string-array>
+
+    <!-- "Sorry, ich mach das trotzdem" -->
+    <string-array name="envy_huff">
+        <item>Hmpf. Na gut. Das merk ich mir. 😾</item>
+        <item>Wow. Einfach wow. 😤</item>
+        <item>Okay… dann warte ich eben weiter. 🥲</item>
+        <item>Schon gut. Ich bin ja nur eine Aufgabe. 😔</item>
+        <item>Ich schreib das in mein Tagebuch. 📓</item>
+        <item>Das gibt ein Nachspiel! 😠</item>
+        <item>Ich sag nichts mehr. Gar nichts. Nie wieder. … Oder bald. 😶</item>
+        <item>Mach doch. Ich bin hier. Wie immer. 🙃</item>
+        <item>Merk dir diesen Moment. Ich tu\'s jedenfalls. 😑</item>
+        <item>Typisch. Einfach typisch. 🙄</item>
+        <item>Ich bin nicht beleidigt. Ich bin nur… beleidigt. 😤</item>
+        <item>Wenn ich Augen hätte, würde ich sie jetzt rollen. 🙄</item>
+    </string-array>
+</resources>
