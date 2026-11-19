@@ -79,7 +79,7 @@ fun QuickAddSheet(listName: String, onAdd: (String) -> Unit, onClose: () -> Unit
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = 0.2f))
+            // no dimming: only the input bar itself is visible
             .clickable(interactionSource = noRipple, indication = null, onClick = closeFromOutside),
         contentAlignment = Alignment.BottomCenter,
     ) {
