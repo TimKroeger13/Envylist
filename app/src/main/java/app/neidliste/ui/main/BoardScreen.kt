@@ -220,10 +220,13 @@ private fun TaskList(board: Board?, padding: PaddingValues, viewModel: MainViewM
     val haptics = LocalHapticFeedback.current
     val tasks = board?.tasks.orEmpty()
 
-    // Local copy while dragging, so the list follows the finger before the database catches up.
+    // Local copy only while dragging, so the list follows the finger before the database catches up.
+    // Otherwise always show the real data (no "all done" flash while loading).
     var local by remember { mutableStateOf(tasks) }
     var dragging by remember { mutableStateOf(false) }
-    LaunchedEffect(tasks) { if (!dragging) local = tasks }
+    var settling by remember { mutableStateOf(false) } // dropped, waiting for the saved order
+    LaunchedEffect(tasks) { settling = false }
+    val shown = if (dragging || settling) local else tasks
 
     val listState = rememberLazyListState()
 
@@ -263,7 +266,7 @@ private fun TaskList(board: Board?, padding: PaddingValues, viewModel: MainViewM
         ),
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        if (board != null && local.isEmpty()) {
+        if (board != null && board.tasks.isEmpty()) {
             item(key = "empty") {
                 Text(
                     stringResource(R.string.empty_list),
@@ -274,7 +277,7 @@ private fun TaskList(board: Board?, padding: PaddingValues, viewModel: MainViewM
                 )
             }
         }
-        items(local, key = { it.id }) { task ->
+        items(shown, key = { it.id }) { task ->
             ReorderableItem(reorderState, key = task.id) { isDragging ->
                 val elevation by animateDpAsState(if (isDragging) 10.dp else 0.dp, label = "dragElevation")
                 TaskRow(
@@ -297,10 +300,12 @@ private fun TaskList(board: Board?, padding: PaddingValues, viewModel: MainViewM
                     },
                     dragHandle = Modifier.draggableHandle(
                         onDragStarted = {
+                            local = tasks
                             dragging = true
                             haptics.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
                         },
                         onDragStopped = {
+                            settling = local.map { it.id } != tasks.map { it.id }
                             dragging = false
                             viewModel.reorder(local.map { it.id })
                         },
