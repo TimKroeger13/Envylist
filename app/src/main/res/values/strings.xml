@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">Neidliste</string>
+    <string name="default_list_name">My tasks</string>
+    <string name="widget_description">Your list with jealous tasks, right on the home screen</string>
+
+    <string name="add_task_hint">New task…</string>
+    <string name="add">Add</string>
+    <string name="done_button">Done</string>
+    <string name="added_count">%d added</string>
+    <string name="progress">%1$d/%2$d</string>
+    <string name="progress_long">%1$d of %2$d done</string>
+    <string name="empty_list">Nothing to do – everybody is happy 🎉</string>
+    <string name="list_missing">List not found – tap to choose one</string>
+
+    <string name="close_all_done">Close all finished</string>
+    <string name="sort_by_envy">Sort by envy</string>
+    <string name="new_list">New list</string>
+    <string name="rename_list">Rename list</string>
+    <string name="delete_list">Delete list</string>
+    <string name="delete_list_confirm">Delete the list „%s“ with all its tasks? This cannot be undone.</string>
+    <string name="list_name">Name of the list</string>
+    <string name="archive">Archive</string>
+    <string name="settings">Settings</string>
+    <string name="add_widget">Add widget to home screen</string>
+    <string name="add_widget_unsupported">Your launcher cannot pin widgets. Long-press the home screen and add it from the widget list.</string>
+
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="delete">Delete</string>
+    <string name="confirm_delete_task">Tap again to really delete</string>
+    <string name="restore">Restore</string>
+    <string name="clear_archive">Empty archive</string>
+    <string name="clear_archive_confirm">Permanently delete all closed tasks of this list?</string>
+    <string name="archive_empty">Nothing here yet. Finished tasks you tick off land here – your nice list of everything you got done.</string>
+    <string name="closed_on">closed %s</string>
+
+    <string name="move_top">To the top</string>
+    <string name="move_up">Up</string>
+    <string name="move_down">Down</string>
+    <string name="reset">Reset</string>
+    <string name="edit_task">Edit task</string>
+    <string name="task_title">Title</string>
+    <string name="color">Colour</string>
+    <string name="choose_list">Choose list</string>
+    <string name="envy_points">Envy: %d</string>
+
+    <string name="envy_enabled">Envy mode</string>
+    <string name="envy_enabled_desc">Tasks get jealous when others are finished before them.</string>
+    <string name="envy_level1">Slightly jealous from</string>
+    <string name="envy_level2">Annoyed from</string>
+    <string name="envy_level3">Really jealous from</string>
+    <string name="envy_objection">Objection from</string>
+    <string name="envy_explainer">Every time you finish a task, all other unfinished tasks in the same list get one envy point. The more points, the louder they complain. From the objection level on, a task speaks up when you want to finish another one first. Undoing an accidental tick takes the points back.</string>
+
+    <string name="yield_button">Fine, you first</string>
+    <string name="proceed_button">Sorry, doing it anyway</string>
+
+    <string name="cd_status_open">Open – tap to start</string>
+    <string name="cd_status_progress">In progress – tap to finish</string>
+    <string name="cd_status_done">Finished</string>
+    <string name="cd_color">Task actions</string>
+    <string name="cd_drag">Drag to reorder</string>
+    <string name="cd_reset">Reset task</string>
+    <string name="cd_close_task">Close task</string>
+    <string name="cd_switch_list">Switch list</string>
+    <string name="cd_more">More</string>
+    <string name="cd_back">Back</string>
+
+    <string-array name="envy_mild">
+        <item>Hello? I\'m still here 👀</item>
+        <item>Psst… me next?</item>
+        <item>I\'m waiting too, you know 🙂</item>
+    </string-array>
+    <string-array name="envy_annoyed">
+        <item>Not me again?! 😒</item>
+        <item>Hmpf. Always the others.</item>
+        <item>I\'m starting to take this personally 🙄</item>
+    </string-array>
+    <string-array name="envy_angry">
+        <item>I\'m getting seriously jealous 😤</item>
+        <item>That\'s it, I\'m counting! 😠</item>
+        <item>What do they have that I don\'t?! 😤</item>
+    </string-array>
+    <string-array name="envy_objection_short">
+        <item>I object! 🛑</item>
+        <item>My turn. Now. 😡</item>
+        <item>Not one more before me! 🛑</item>
+    </string-array>
+    <string-array name="envy_objection_long">
+        <item>Hold on! I\'ve been waiting for %1$d finished tasks – and now „%2$s“ gets to go before me?!</item>
+        <item>Seriously? %1$d tasks have already overtaken me. And „%2$s“ jumps the queue again?</item>
+        <item>I watched %1$d times. Not again! „%2$s“ can wait – it\'s MY turn! 😤</item>
+    </string-array>
+    <string-array name="envy_thanks">
+        <item>Yay! Thank you! 🥰</item>
+        <item>Finally! I knew you liked me best 💛</item>
+        <item>Let\'s go! 💪</item>
+    </string-array>
+    <string-array name="envy_huff">
+        <item>Hmpf. Fine. I\'ll remember this. 😾</item>
+        <item>Wow. Just wow. 😤</item>
+        <item>Okay… I\'ll keep waiting then. 🥲</item>
+    </string-array>
+</resources>

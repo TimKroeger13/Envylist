@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_list_name">Meine Aufgaben</string>
+    <string name="widget_description">Deine Liste mit neidischen Aufgaben, direkt auf dem Homescreen</string>
+
+    <string name="add_task_hint">Neue Aufgabe…</string>
+    <string name="add">Hinzufügen</string>
+    <string name="done_button">Fertig</string>
+    <string name="added_count">%d hinzugefügt</string>
+    <string name="progress">%1$d/%2$d</string>
+    <string name="progress_long">%1$d von %2$d erledigt</string>
+    <string name="empty_list">Nichts zu tun – alle sind zufrieden 🎉</string>
+    <string name="list_missing">Liste nicht gefunden – tippen zum Auswählen</string>
+
+    <string name="close_all_done">Alle erledigten abschließen</string>
+    <string name="sort_by_envy">Nach Neid sortieren</string>
+    <string name="new_list">Neue Liste</string>
+    <string name="rename_list">Liste umbenennen</string>
+    <string name="delete_list">Liste löschen</string>
+    <string name="delete_list_confirm">Die Liste „%s“ mit allen Aufgaben löschen? Das lässt sich nicht rückgängig machen.</string>
+    <string name="list_name">Name der Liste</string>
+    <string name="archive">Archiv</string>
+    <string name="settings">Einstellungen</string>
+    <string name="add_widget">Widget zum Homescreen hinzufügen</string>
+    <string name="add_widget_unsupported">Dein Launcher kann Widgets nicht direkt anheften. Halte den Homescreen gedrückt und füge es aus der Widget-Liste hinzu.</string>
+
+    <string name="cancel">Abbrechen</string>
+    <string name="save">Speichern</string>
+    <string name="delete">Löschen</string>
+    <string name="confirm_delete_task">Nochmal tippen zum endgültigen Löschen</string>
+    <string name="restore">Wiederherstellen</string>
+    <string name="clear_archive">Archiv leeren</string>
+    <string name="clear_archive_confirm">Alle abgeschlossenen Aufgaben dieser Liste endgültig löschen?</string>
+    <string name="archive_empty">Noch leer. Erledigte Aufgaben, die du abhakst, landen hier – deine schöne Liste mit allem, was du geschafft hast.</string>
+    <string name="closed_on">abgeschlossen %s</string>
+
+    <string name="move_top">Ganz nach oben</string>
+    <string name="move_up">Hoch</string>
+    <string name="move_down">Runter</string>
+    <string name="reset">Zurücksetzen</string>
+    <string name="edit_task">Aufgabe bearbeiten</string>
+    <string name="task_title">Titel</string>
+    <string name="color">Farbe</string>
+    <string name="choose_list">Liste wählen</string>
+    <string name="envy_points">Neid: %d</string>
+
+    <string name="envy_enabled">Neid-Modus</string>
+    <string name="envy_enabled_desc">Aufgaben werden neidisch, wenn andere vor ihnen erledigt werden.</string>
+    <string name="envy_level1">Leicht neidisch ab</string>
+    <string name="envy_level2">Genervt ab</string>
+    <string name="envy_level3">Richtig neidisch ab</string>
+    <string name="envy_objection">Einspruch ab</string>
+    <string name="envy_explainer">Jedes Mal, wenn du eine Aufgabe erledigst, bekommen alle anderen offenen Aufgaben derselben Liste einen Neidpunkt. Je mehr Punkte, desto lauter beschweren sie sich. Ab der Einspruch-Grenze meldet sich eine Aufgabe, wenn du zuerst eine andere erledigen willst. Versehentliches Abhaken rückgängig machen nimmt die Punkte wieder zurück.</string>
+
+    <string name="yield_button">Na gut, du zuerst</string>
+    <string name="proceed_button">Sorry, ich mach das trotzdem</string>
+
+    <string name="cd_status_open">Offen – tippen zum Starten</string>
+    <string name="cd_status_progress">In Arbeit – tippen zum Erledigen</string>
+    <string name="cd_status_done">Erledigt</string>
+    <string name="cd_color">Aufgaben-Aktionen</string>
+    <string name="cd_drag">Ziehen zum Sortieren</string>
+    <string name="cd_reset">Aufgabe zurücksetzen</string>
+    <string name="cd_close_task">Aufgabe abschließen</string>
+    <string name="cd_switch_list">Liste wechseln</string>
+    <string name="cd_more">Mehr</string>
+    <string name="cd_back">Zurück</string>
+
+    <string-array name="envy_mild">
+        <item>Hallo? Ich bin auch noch da 👀</item>
+        <item>Psst… bin ich als Nächstes dran?</item>
+        <item>Ich warte übrigens auch 🙂</item>
+    </string-array>
+    <string-array name="envy_annoyed">
+        <item>Schon wieder nicht ich?! 😒</item>
+        <item>Hmpf. Immer die anderen.</item>
+        <item>Ich nehm das langsam persönlich 🙄</item>
+    </string-array>
+    <string-array name="envy_angry">
+        <item>Ich werde langsam richtig neidisch 😤</item>
+        <item>So, ich zähl jetzt mit! 😠</item>
+        <item>Was haben die, was ich nicht hab?! 😤</item>
+    </string-array>
+    <string-array name="envy_objection_short">
+        <item>Einspruch! 🛑</item>
+        <item>Ich bin dran. Jetzt. 😡</item>
+        <item>Keine einzige mehr vor mir! 🛑</item>
+    </string-array>
+    <string-array name="envy_objection_long">
+        <item>Moment mal! Ich warte schon seit %1$d erledigten Aufgaben – und jetzt soll „%2$s“ vor mir dran sein?!</item>
+        <item>Echt jetzt? %1$d Aufgaben sind schon an mir vorbeigezogen. Und „%2$s“ darf schon wieder vor?</item>
+        <item>Ich hab %1$d Mal zugesehen. Nicht schon wieder! „%2$s“ kann warten – ICH bin dran! 😤</item>
+    </string-array>
+    <string-array name="envy_thanks">
+        <item>Juhu! Danke! 🥰</item>
+        <item>Endlich! Ich wusste, du magst mich am liebsten 💛</item>
+        <item>Auf geht\'s! 💪</item>
+    </string-array>
+    <string-array name="envy_huff">
+        <item>Hmpf. Na gut. Das merk ich mir. 😾</item>
+        <item>Wow. Einfach wow. 😤</item>
+        <item>Okay… dann warte ich eben weiter. 🥲</item>
+    </string-array>
+</resources>
