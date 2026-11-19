@@ -22,6 +22,8 @@ import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.distinctUntilChanged
+import kotlinx.coroutines.flow.drop
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
@@ -58,6 +60,13 @@ class TaskRepository(
 ) {
     private val dao = db.taskDao()
     private val writeLock = Mutex()
+
+    init {
+        // Changing thresholds etc. changes what the widget shows: redraw it, not only the app.
+        scope.launch {
+            settings.envy.distinctUntilChanged().drop(1).collect { refreshWidgets() }
+        }
+    }
 
     val lists: Flow<List<TaskListEntity>> = dao.observeLists()
 
