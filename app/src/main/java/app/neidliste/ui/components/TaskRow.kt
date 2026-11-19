@@ -3,6 +3,7 @@ package app.neidliste.ui.components
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -62,8 +63,23 @@ fun TaskRow(
     onToggleClose: () -> Unit,
     dragHandle: Modifier,
     modifier: Modifier = Modifier,
+    kicked: Boolean = false,
 ) {
     val done = task.status == TaskStatus.DONE
+    // A long-jealous task shoving itself to the top: puff up and wiggle.
+    val kickScale = remember { Animatable(1f) }
+    val kickTilt = remember { Animatable(0f) }
+    LaunchedEffect(kicked) {
+        if (kicked) {
+            kickScale.animateTo(1.06f, tween(140))
+            repeat(2) {
+                kickTilt.animateTo(-2.5f, tween(70))
+                kickTilt.animateTo(2.5f, tween(70))
+            }
+            kickTilt.animateTo(0f, tween(70))
+            kickScale.animateTo(1f, spring(dampingRatio = 0.45f))
+        }
+    }
     // Ticking the close-checkbox: one soft light-up into green, then a calm green until it leaves.
     val glow = remember { Animatable(0f) }
     LaunchedEffect(task.archivePending) {
@@ -97,7 +113,11 @@ fun TaskRow(
         shape = RoundedCornerShape(16.dp),
         modifier = modifier
             .fillMaxWidth()
-            .graphicsLayer { scaleX = scale; scaleY = scale },
+            .graphicsLayer {
+                scaleX = scale * kickScale.value
+                scaleY = scale * kickScale.value
+                rotationZ = kickTilt.value
+            },
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(end = 2.dp)) {
             Box(

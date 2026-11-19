@@ -63,10 +63,23 @@ class EnvyEngineTest {
     }
 
     @Test
-    fun objectionOnlyWhenTapWouldComplete() {
+    fun objectionOnlyOnceWhenStartingAnotherTask() {
         val tasks = listOf(item(1, 0, TaskStatus.OPEN), item(2, 0, TaskStatus.IN_PROGRESS), item(3, 22))
-        assertNull(EnvyEngine.wouldObject(tasks[0], tasks, settings))
-        assertEquals(3L, EnvyEngine.wouldObject(tasks[1], tasks, settings)?.id)
+        assertEquals(3L, EnvyEngine.wouldObject(tasks[0], tasks, settings)?.id) // starting → complains
+        assertNull(EnvyEngine.wouldObject(tasks[1], tasks, settings))            // finishing → no second time
+    }
+
+    @Test
+    fun longObjectingTaskKicksItselfToTheTop() {
+        // objection = 20, kicks at 23, 26, ...
+        val kicking = listOf(item(1, 0, position = 0), item(2, 23, position = 3), item(3, 21, position = 1))
+        assertEquals(2L, EnvyEngine.kicker(kicking, settings)?.id)
+        // not on the in-between points
+        assertNull(EnvyEngine.kicker(listOf(item(1, 0, position = 0), item(2, 22, position = 3)), settings))
+        // already on top → nothing to do
+        assertNull(EnvyEngine.kicker(listOf(item(2, 23, position = 0), item(1, 0, position = 1)), settings))
+        // exactly at the threshold it only objects, it does not kick yet
+        assertNull(EnvyEngine.kicker(listOf(item(1, 0, position = 0), item(2, 20, position = 1)), settings))
     }
 
     @Test

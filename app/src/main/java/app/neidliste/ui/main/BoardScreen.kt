@@ -88,6 +88,7 @@ import app.neidliste.ui.theme.DoneGreen
 import app.neidliste.widget.PinWidgetReceiver
 import app.neidliste.widget.TaskListWidgetReceiver
 import app.neidliste.widget.WidgetIntents
+import kotlinx.coroutines.delay
 import sh.calvin.reorderable.ReorderableItem
 import sh.calvin.reorderable.rememberReorderableLazyListState
 
@@ -225,6 +226,23 @@ private fun TaskList(board: Board?, padding: PaddingValues, viewModel: MainViewM
     LaunchedEffect(tasks) { if (!dragging) local = tasks }
 
     val listState = rememberLazyListState()
+
+    // A long-jealous task shoved itself to the top: scroll up, let it wiggle and shout for a moment.
+    var kickedId by remember { mutableStateOf<Long?>(null) }
+    LaunchedEffect(Unit) {
+        viewModel.kicks.collect { id ->
+            kickedId = id
+            haptics.performHapticFeedback(HapticFeedbackType.Reject)
+            listState.animateScrollToItem(0)
+        }
+    }
+    LaunchedEffect(kickedId) {
+        if (kickedId != null) {
+            delay(3_500)
+            kickedId = null
+        }
+    }
+
     val reorderState = rememberReorderableLazyListState(listState) { from, to ->
         val fromIdx = local.indexOfFirst { it.id == from.key }
         val toIdx = local.indexOfFirst { it.id == to.key }
@@ -261,7 +279,8 @@ private fun TaskList(board: Board?, padding: PaddingValues, viewModel: MainViewM
                 val elevation by animateDpAsState(if (isDragging) 10.dp else 0.dp, label = "dragElevation")
                 TaskRow(
                     task = task,
-                    speech = speechOf(context, task),
+                    speech = if (kickedId == task.id) EnvyVoice.kick(context, task) else speechOf(context, task),
+                    kicked = kickedId == task.id,
                     onTap = {
                         haptics.performHapticFeedback(HapticFeedbackType.ContextClick)
                         viewModel.cycle(task.id)

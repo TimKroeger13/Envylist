@@ -91,6 +91,11 @@
         <item>Echt jetzt? %1$d Aufgaben sind schon an mir vorbeigezogen. Und „%2$s“ darf schon wieder vor?</item>
         <item>Ich hab %1$d Mal zugesehen. Nicht schon wieder! „%2$s“ kann warten – ICH bin dran! 😤</item>
     </string-array>
+    <string-array name="envy_kick">
+        <item>Platz da! Jetzt bin ich dran 😤</item>
+        <item>Zur Seite, ich komm durch! 💪</item>
+        <item>So, jetzt reicht\'s – ich geh nach vorne! 😠</item>
+    </string-array>
     <string-array name="envy_thanks">
         <item>Juhu! Danke! 🥰</item>
         <item>Endlich! Ich wusste, du magst mich am liebsten 💛</item>

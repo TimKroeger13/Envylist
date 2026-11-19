@@ -48,6 +48,9 @@ class MainViewModel(
     private val _objection = MutableStateFlow<CycleResult.Objection?>(null)
     val objection: StateFlow<CycleResult.Objection?> = _objection.asStateFlow()
 
+    /** A task that just shoved itself to the top. */
+    val kicks = repo.kicks
+
     init {
         viewModelScope.launch {
             val id = repo.ensureDefaultList()

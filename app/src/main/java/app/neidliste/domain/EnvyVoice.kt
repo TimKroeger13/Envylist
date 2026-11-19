@@ -23,6 +23,8 @@ object EnvyVoice {
         pick(context, R.array.envy_objection_long, objector.envy.toLong())
             .format(objector.envy, other.title)
 
+    fun kick(context: Context, item: TaskItem): String = pick(context, R.array.envy_kick, item.id + item.envy)
+
     fun thanks(context: Context): String = pick(context, R.array.envy_thanks, Random.nextLong())
 
     fun huff(context: Context): String = pick(context, R.array.envy_huff, Random.nextLong())

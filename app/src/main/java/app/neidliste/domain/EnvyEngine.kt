@@ -48,9 +48,30 @@ object EnvyEngine {
             .firstOrNull()
     }
 
-    /** Whether tapping [task] would complete it while another task objects. */
+    /**
+     * Whether tapping [task] would *start* it while another task objects. Jealous tasks complain once,
+     * when you begin working on something else, not again when you finish it.
+     */
     fun wouldObject(task: TaskItem, tasks: List<TaskItem>, settings: EnvySettings): TaskItem? =
-        if (nextStatus(task.status) == TaskStatus.DONE) objector(task.id, tasks, settings) else null
+        if (nextStatus(task.status) == TaskStatus.IN_PROGRESS) objector(task.id, tasks, settings) else null
+
+    /** A task this many points beyond the objection level pushes itself to the top again. */
+    const val KICK_EVERY = 3
+
+    /**
+     * After a completion: the most envious task that has been objecting for a while
+     * (every [KICK_EVERY] points beyond the threshold) shoves itself to the top, unless it is already there.
+     */
+    fun kicker(tasks: List<TaskItem>, settings: EnvySettings): TaskItem? {
+        if (!settings.enabled) return null
+        val candidate = tasks
+            .filter { it.status != TaskStatus.DONE && it.envy > settings.objection }
+            .sortedWith(compareByDescending<TaskItem> { it.envy }.thenBy { it.position })
+            .firstOrNull() ?: return null
+        if ((candidate.envy - settings.objection) % KICK_EVERY != 0) return null
+        val first = tasks.minByOrNull { it.position }
+        return if (first?.id == candidate.id) null else candidate
+    }
 
     fun isUndo(completedAt: Long?, now: Long): Boolean =
         completedAt != null && now - completedAt in 0..UNDO_WINDOW_MS

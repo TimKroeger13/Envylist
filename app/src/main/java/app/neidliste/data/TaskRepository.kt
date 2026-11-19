@@ -18,6 +18,9 @@ import app.neidliste.work.ArchiveWorker
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -149,7 +152,8 @@ class TaskRepository(
     suspend fun cycle(taskId: Long, force: Boolean = false): CycleResult {
         val task = dao.task(taskId) ?: return CycleResult.Unchanged
         val next = EnvyEngine.nextStatus(task.status) ?: return CycleResult.Unchanged
-        if (next == TaskStatus.DONE && !force) {
+        // Jealous tasks complain once: when you *start* another task.
+        if (next == TaskStatus.IN_PROGRESS && !force) {
             val board = board(task.listId)
             val item = board.tasks.firstOrNull { it.id == taskId }
             val objector = EnvyEngine.objector(taskId, board.tasks, board.settings)
@@ -168,7 +172,20 @@ class TaskRepository(
                 }
             }
         }
+        if (next == TaskStatus.DONE) kickIfNeeded(task.listId)
         return CycleResult.Changed
+    }
+
+    private val _kicks = MutableSharedFlow<Long>(extraBufferCapacity = 8)
+
+    /** Ids of tasks that just shoved themselves to the top (for the little animation in the app). */
+    val kicks: SharedFlow<Long> = _kicks.asSharedFlow()
+
+    private suspend fun kickIfNeeded(listId: Long) {
+        val board = board(listId)
+        val kicker = EnvyEngine.kicker(board.tasks, board.settings) ?: return
+        moveToTop(kicker.id)
+        _kicks.tryEmit(kicker.id)
     }
 
     /**

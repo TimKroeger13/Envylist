@@ -92,6 +92,11 @@
         <item>Seriously? %1$d tasks have already overtaken me. And „%2$s“ jumps the queue again?</item>
         <item>I watched %1$d times. Not again! „%2$s“ can wait – it\'s MY turn! 😤</item>
     </string-array>
+    <string-array name="envy_kick">
+        <item>Make way! It\'s my turn now 😤</item>
+        <item>Step aside, coming through! 💪</item>
+        <item>That\'s it – I\'m going to the front! 😠</item>
+    </string-array>
     <string-array name="envy_thanks">
         <item>Yay! Thank you! 🥰</item>
         <item>Finally! I knew you liked me best 💛</item>
