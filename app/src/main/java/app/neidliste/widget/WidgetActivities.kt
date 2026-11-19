@@ -63,6 +63,7 @@ import app.neidliste.domain.TaskItem
 import app.neidliste.ui.components.DialogScaffold
 import app.neidliste.ui.components.ObjectionContent
 import app.neidliste.ui.components.TaskEditorContent
+import app.neidliste.ui.components.submitOnHardwareEnter
 import app.neidliste.ui.theme.NeidTheme
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -118,10 +119,9 @@ private fun QuickAdd(listName: String, onAdd: (String) -> Unit, onClose: () -> U
             value = text,
             onValueChange = { text = it },
             placeholder = { Text(stringResource(R.string.add_task_hint)) },
-            singleLine = true,
-            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
-            keyboardActions = KeyboardActions(onDone = { submit() }),
-            modifier = Modifier.fillMaxWidth().focusRequester(focus),
+            maxLines = 4,
+            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+            modifier = Modifier.fillMaxWidth().focusRequester(focus).submitOnHardwareEnter { submit() },
         )
         Spacer(Modifier.height(8.dp))
         Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {

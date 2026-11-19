@@ -259,7 +259,7 @@ private fun TaskRow(task: TaskItem, board: Board) {
                     Spacer(GlanceModifier.width(6.dp))
                     Text(
                         text = task.title,
-                        maxLines = 2,
+                        maxLines = 4,
                         style = TextStyle(
                             color = if (done) GlanceTheme.colors.onSurfaceVariant else GlanceTheme.colors.onSurface,
                             fontSize = 15.sp,

@@ -157,7 +157,7 @@ fun TaskEditorContent(
         value = title,
         onValueChange = { title = it },
         label = { Text(stringResource(R.string.task_title)) },
-        singleLine = true,
+        maxLines = 5,
         keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
         modifier = Modifier.fillMaxWidth(),
     )

@@ -122,7 +122,7 @@ fun TaskRow(
                     Spacer(Modifier.width(8.dp))
                     Text(
                         text = task.title,
-                        maxLines = 3,
+                        maxLines = 6,
                         overflow = TextOverflow.Ellipsis,
                         style = MaterialTheme.typography.bodyLarge.copy(
                             fontWeight = if (task.status == TaskStatus.IN_PROGRESS) FontWeight.Bold else FontWeight.Normal,

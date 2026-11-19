@@ -19,6 +19,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
@@ -30,6 +31,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -81,6 +83,7 @@ import app.neidliste.ui.components.DialogCard
 import app.neidliste.ui.components.ObjectionContent
 import app.neidliste.ui.components.TaskEditorContent
 import app.neidliste.ui.components.TaskRow
+import app.neidliste.ui.components.submitOnHardwareEnter
 import app.neidliste.ui.theme.DoneGreen
 import app.neidliste.widget.PinWidgetReceiver
 import app.neidliste.widget.TaskListWidgetReceiver
@@ -418,13 +421,16 @@ private fun AddBar(onAdd: (String) -> Unit) {
                 .imePadding()
                 .padding(horizontal = 12.dp, vertical = 6.dp),
         ) {
-            // slim pill instead of a tall outlined text field
+            // slim pill instead of a tall outlined text field; grows for multi-line titles
             Surface(
-                shape = CircleShape,
+                shape = RoundedCornerShape(22.dp),
                 color = MaterialTheme.colorScheme.surfaceVariant,
-                modifier = Modifier.weight(1f).height(44.dp),
+                modifier = Modifier.weight(1f).heightIn(min = 44.dp),
             ) {
-                Box(contentAlignment = Alignment.CenterStart, modifier = Modifier.padding(horizontal = 16.dp)) {
+                Box(
+                    contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 11.dp),
+                ) {
                     if (text.isEmpty()) {
                         Text(
                             stringResource(R.string.add_task_hint),
@@ -435,12 +441,11 @@ private fun AddBar(onAdd: (String) -> Unit) {
                     BasicTextField(
                         value = text,
                         onValueChange = { text = it },
-                        singleLine = true,
+                        maxLines = 4,
                         textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
                         cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
-                        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
-                        keyboardActions = KeyboardActions(onDone = { submit() }),
-                        modifier = Modifier.fillMaxWidth(),
+                        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                        modifier = Modifier.fillMaxWidth().submitOnHardwareEnter { submit() },
                     )
                 }
             }
