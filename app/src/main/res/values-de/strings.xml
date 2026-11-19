@@ -82,9 +82,9 @@
         <item>Was haben die, was ich nicht hab?! 😤</item>
     </string-array>
     <string-array name="envy_objection_short">
-        <item>Einspruch! 🛑</item>
+        <item>Einspruch! 🤬</item>
         <item>Ich bin dran. Jetzt. 😡</item>
-        <item>Keine einzige mehr vor mir! 🛑</item>
+        <item>Keine einzige mehr vor mir! 😡</item>
     </string-array>
     <string-array name="envy_objection_long">
         <item>Moment mal! Ich warte schon seit %1$d erledigten Aufgaben – und jetzt soll „%2$s“ vor mir dran sein?!</item>

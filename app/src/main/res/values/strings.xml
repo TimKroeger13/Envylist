@@ -83,9 +83,9 @@
         <item>What do they have that I don\'t?! 😤</item>
     </string-array>
     <string-array name="envy_objection_short">
-        <item>I object! 🛑</item>
+        <item>I object! 🤬</item>
         <item>My turn. Now. 😡</item>
-        <item>Not one more before me! 🛑</item>
+        <item>Not one more before me! 😡</item>
     </string-array>
     <string-array name="envy_objection_long">
         <item>Hold on! I\'ve been waiting for %1$d finished tasks – and now „%2$s“ gets to go before me?!</item>

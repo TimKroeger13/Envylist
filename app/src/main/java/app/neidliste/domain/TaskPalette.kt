@@ -47,6 +47,6 @@ object TaskPalette {
         EnvyLevel.MILD -> "👀"
         EnvyLevel.ANNOYED -> "😒"
         EnvyLevel.ANGRY -> "😤"
-        EnvyLevel.OBJECTION -> "🛑"
+        EnvyLevel.OBJECTION -> "🤬"
     }
 }
