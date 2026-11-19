@@ -5,148 +5,128 @@
 <h1 align="center">Envylist</h1>
 
 <p align="center">
-  <b>Die Aufgabenliste, bei der unerledigte Aufgaben neidisch werden.</b><br>
-  Für Android · komplett offline · gemacht fürs Homescreen-Widget
+  <b>The to-do list where unfinished tasks get jealous.</b><br>
+  For Android · fully offline · built for the home-screen widget
 </p>
 
 <p align="center">
   <a href="https://tkroeger.com/websites/Software/"><b>⬇ Download (APK)</b></a> ·
   <a href="#installation">Installation</a> ·
-  <a href="#english">English</a>
+  <a href="#license">License</a>
 </p>
 
 <p align="center">
-  <img src="docs/screenshots/widget.png" width="250" alt="Widget auf dem Homescreen">
+  <img src="docs/screenshots/widget.png" width="250" alt="Widget on the home screen">
   &nbsp;
-  <img src="docs/screenshots/app.png" width="250" alt="Die Liste in der App">
+  <img src="docs/screenshots/app.png" width="250" alt="The list in the app">
   &nbsp;
-  <img src="docs/screenshots/objection.png" width="250" alt="Eine Aufgabe erhebt Einspruch">
+  <img src="docs/screenshots/objection.png" width="250" alt="A task raising an objection">
 </p>
 
 ---
 
-## Worum geht's?
+## What is it?
 
-Jede Aufgaben-App kann Häkchen setzen. Envylist gibt deinen Aufgaben **Gefühle**:
-Jedes Mal, wenn du etwas erledigst, werden alle anderen offenen Aufgaben derselben Liste
-ein bisschen neidischer. Und sie sagen dir das auch.
+Every to-do app can tick things off. Envylist gives your tasks **feelings**:
+every time you finish something, all other open tasks of the same list get a little more jealous –
+and they let you know.
 
-| Neid | Stufe | Die Aufgabe sagt zum Beispiel … |
+| Envy | Level | The task says, for example … |
 |:---:|---|---|
-| 👀 | leicht neidisch | „Hallo? Ich bin auch noch da.“ |
-| 😒 | genervt | „Ach, die ist also wichtiger. Interessant.“ |
-| 😤 | richtig neidisch | „Ich will mit dem Manager sprechen!“ |
-| 🤬 | Einspruch | „Ich protestiere offiziell gegen ‚Fenster putzen‘!“ |
+| 👀 | slightly jealous | "Hello? I'm still here." |
+| 😒 | annoyed | "Oh, so that one is more important. Interesting." |
+| 😤 | really jealous | "I want to speak to the manager!" |
+| 🤬 | objection | "I officially protest against 'Clean the windows'!" |
 
-Ab der Einspruch-Stufe meldet sich eine Aufgabe, **bevor** du eine andere anfängst –
-und wer lange genug ignoriert wird, drängelt sich irgendwann selbst ganz nach oben.
-So rutscht das Unangenehme nicht ewig nach hinten.
+From the objection level on, a task speaks up **before** you start another one –
+and a task that gets ignored long enough eventually pushes itself to the top.
+So the unpleasant chores can't hide at the bottom forever.
 
-## Funktionen
+## Features
 
-- **Widget first:** alles geht direkt auf dem Homescreen – abhaken, neu anlegen, sortieren, abschließen.
-  Das Widget lässt sich bis fast auf Vollbild ziehen.
-- **Drei Zustände per Tippen:** offen → in Arbeit → erledigt (durchgestrichen). ↺ setzt zurück.
-- **Abschließen statt Löschen:** erledigte Aufgaben hakst du ab, sie leuchten kurz auf und wandern
-  ins Archiv – die schöne Liste mit allem, was du geschafft hast. Versehentlich abgehakt? Einfach nochmal tippen.
-- **Mehrere Listen**, mehrzeilige Aufgaben, Sortieren per Ziehen.
-- **Über 90 Sprüche** in Deutsch und Englisch, je nach Stimmung der Aufgabe.
-- **Antippen erklärt:** jedes Neid-Abzeichen und jedes Symbol erklärt sich per Tipp.
-- Alle Grenzen sind einstellbar, Hell- und Dunkelmodus, Android-Themen-Icon.
+- **Widget first:** everything works right on the home screen – tick off, add, reorder, close.
+  The widget can be stretched to almost full screen.
+- **Three states with a tap:** open → in progress → done (struck through). ↺ resets.
+- **Close instead of delete:** finished tasks are ticked off, glow for a moment and move to the archive –
+  a nice list of everything you got done. Ticked by accident? Just tap again.
+- **Multiple lists**, multi-line tasks, drag & drop sorting.
+- **More than 90 voice lines** in English and German, depending on the task's mood.
+- **Tap to learn:** every envy badge and every symbol explains itself on tap.
+- All thresholds are adjustable, light and dark mode, Android themed icon.
 
-## Datenschutz
+## Privacy
 
-Envylist hat **keine Internet-Berechtigung**. Es gibt kein Konto, keine Werbung, kein Tracking
-und keine Google-Dienste. Deine Aufgaben liegen ausschließlich auf deinem Handy.
-Läuft auch auf GrapheneOS und anderen Android-Systemen ohne Google.
+Envylist has **no internet permission**. No account, no ads, no tracking and no Google services.
+Your tasks stay on your phone only. Works on GrapheneOS and other Android systems without Google.
 
 ## Installation
 
-Envylist gibt es (noch) nicht im Play Store, sondern als APK-Datei:
+Envylist is not on the Play Store (yet); it comes as an APK file:
 
-1. Auf dem Handy **[tkroeger.com/websites/Software](https://tkroeger.com/websites/Software/)** öffnen
-   und **Envylist** herunterladen.
-2. Die heruntergeladene Datei antippen.
-3. Android fragt beim ersten Mal, ob der Browser bzw. Dateimanager Apps installieren darf –
-   **„Zulassen“** wählen und zurück, dann **„Installieren“**.
-4. Homescreen lange drücken → **Widgets** → **Envylist** auf den Homescreen ziehen.
+1. On your phone, open **[tkroeger.com/websites/Software](https://tkroeger.com/websites/Software/)**
+   and download **Envylist**.
+2. Tap the downloaded file.
+3. The first time, Android asks whether your browser or file manager may install apps –
+   choose **Allow**, go back, then tap **Install**.
+4. Long-press the home screen → **Widgets** → drag **Envylist** onto the home screen.
 
-**Updates:** neue Version genauso herunterladen und installieren – deine Aufgaben bleiben erhalten.
+**Updates:** download and install the new version the same way – your tasks are kept.
 
-Voraussetzung: Android 8.0 oder neuer.
+Requires Android 8.0 or newer.
 
-## Bedienung in Kürze
+## Quick guide
 
-| Symbol | Bedeutung |
+| Symbol | Meaning |
 |:---:|---|
-| ○ | offen – antippen zum Anfangen |
-| ◐ | in Arbeit – nochmal antippen, wenn erledigt |
-| ✓ | erledigt |
-| ↺ | zurücksetzen (oder Aufgabe lange drücken) |
-| ☐ | abschließen: wandert ins Archiv |
-| ⋮ | Aufgaben-Menü: nach oben schieben, bearbeiten, löschen |
-| 👀 😒 😤 🤬 | Neid-Stufen – antippen für Details |
+| ○ | open – tap to start |
+| ◐ | in progress – tap again when done |
+| ✓ | done |
+| ↺ | reset (or long-press the task) |
+| ☐ | close: moves to the archive |
+| ⋮ | task menu: move to top, edit, delete |
+| 👀 😒 😤 🤬 | envy levels – tap for details |
 
 ---
 
-## Für Entwickler
+## For developers
 
-Native Android-App in **Kotlin** mit **Jetpack Compose** (App), **Glance** (Widget),
-**Room** (Datenbank), **DataStore** und **WorkManager**.
+Native Android app in **Kotlin** with **Jetpack Compose** (app), **Glance** (widget),
+**Room** (database), **DataStore** and **WorkManager**.
 
 ```sh
-./gradlew :app:testDebugUnitTest   # Tests der Neid-Logik
-./gradlew :app:assembleDebug       # Testversion "Envylist Debug" (läuft neben der echten App)
-./gradlew :app:assembleRelease     # signierte Release-APK (braucht keystore.properties)
+./gradlew :app:testDebugUnitTest   # tests of the envy rules
+./gradlew :app:assembleDebug       # test build "Envylist Debug" (installs next to the real app)
+./gradlew :app:assembleRelease     # signed release APK (needs keystore.properties)
 ```
 
-Voraussetzung: JDK 17+ und das Android SDK (`local.properties` → `sdk.dir`).
-Für signierte Release-Builds eine `keystore.properties` im Projektordner anlegen
-(wird nicht eingecheckt):
+Requirements: JDK 17+ and the Android SDK (`local.properties` → `sdk.dir`).
+For signed release builds, put a `keystore.properties` into the project folder
+(it is never committed):
 
 ```properties
-storeFile=C:/pfad/zum/keystore.jks
+storeFile=C:/path/to/keystore.jks
 storePassword=...
 keyAlias=...
 keyPassword=...
 ```
 
-| Ordner | Inhalt |
+| Folder | Content |
 |---|---|
-| `app/src/main/java/app/envylist/domain` | Reine Spielregeln: Neid, Stufen, Einspruch, Drängeln, Sortierung |
-| `app/src/main/java/app/envylist/data` | Room-Datenbank, `TaskRepository` (jede Änderung aktualisiert die Widgets), Einstellungen |
-| `app/src/main/java/app/envylist/widget` | Glance-Widget, Aktionen, kleine Dialog-Fenster (Eingabe, Menü, Einspruch, Info) |
-| `app/src/main/java/app/envylist/ui` | Compose-App: Listen, Archiv, Einstellungen |
-| `app/src/main/res/values*/voice.xml` | Alle Sprüche der Aufgaben |
-| `tools/icon` | Skripte, die das App-Icon erzeugen |
+| `app/src/main/java/app/envylist/domain` | Pure game rules: envy, levels, objections, pushing to the top, ordering |
+| `app/src/main/java/app/envylist/data` | Room database, `TaskRepository` (every change refreshes the widgets), settings |
+| `app/src/main/java/app/envylist/widget` | Glance widget, actions, small dialog windows (input, menu, objection, info) |
+| `app/src/main/java/app/envylist/ui` | Compose app: lists, archive, settings |
+| `app/src/main/res/values*/voice.xml` | All voice lines of the tasks |
+| `tools/icon` | Scripts that generate the app icon |
 
-Neid wird nicht gespeichert, sondern berechnet: Der Neid einer Aufgabe ist die Zahl der
-Erledigungen *anderer* Aufgaben ihrer Liste seit ihrem Start. Wer ein versehentliches
-Abhaken innerhalb von 10 Minuten zurücknimmt, nimmt damit auch den Neid der anderen zurück.
+Envy is not stored but derived: a task's envy is the number of completions of *other* tasks
+in its list since it was started. Undoing an accidental tick within 10 minutes also takes
+the envy of the others back.
 
-## Lizenz
+## License
 
-© 2026 Tim Hochgreve – **alle Rechte vorbehalten.**
-Der Quellcode ist zum Anschauen veröffentlicht, Envylist ist aber **keine Open-Source-Software**.
-Du darfst die App für dich privat nutzen; Weitergeben, veränderte Versionen veröffentlichen,
-kommerzielle Nutzung sowie Name und Icon nur mit schriftlicher Erlaubnis.
-Details: [LICENSE](LICENSE). Verwendete Open-Source-Bibliotheken: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
-
----
-
-## English
-
-**Envylist** is a to-do list for Android where unfinished tasks get jealous. Every time you finish
-a task, all other open tasks of the list gain an envy point – and start complaining, from a polite
-*"Hello? I'm still here 👀"* to a full *"I object! 🤬"* when you try to start something else first.
-Long-ignored tasks eventually push themselves to the top.
-
-- Built around a home-screen widget that can do everything the app can
-- Open → in progress → done with a tap; finished tasks are closed into an archive instead of deleted
-- Multiple lists, multi-line tasks, drag & drop, 90+ voice lines in English and German
-- **No internet permission**, no account, no ads, no tracking, no Google services
-
-**Download:** [tkroeger.com/websites/Software](https://tkroeger.com/websites/Software/) (APK, Android 8.0+).
-
-**License:** © 2026 Tim Hochgreve, all rights reserved. Source available for viewing and personal use
-only – see [LICENSE](LICENSE).
+© 2026 Tim Hochgreve – **all rights reserved.**
+The source code is published for viewing; Envylist is **not open-source software**.
+You may use the app privately; redistribution, publishing modified versions, commercial use,
+and use of the name or icon require written permission.
+Details: [LICENSE](LICENSE). Open-source libraries used: [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md).
