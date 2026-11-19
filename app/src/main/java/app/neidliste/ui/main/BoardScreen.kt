@@ -23,11 +23,14 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.AlertDialog
@@ -40,13 +43,10 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Tab
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -58,11 +58,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
@@ -101,10 +103,21 @@ fun BoardScreen(viewModel: MainViewModel, onOpenArchive: () -> Unit, onOpenSetti
 
     Scaffold(
         topBar = {
-            Column {
-                TopAppBar(
-                    title = { Text(stringResource(R.string.app_name)) },
-                    actions = {
+            // One compact row: list chips on the left, actions on the right, thin progress line below.
+            Surface(tonalElevation = 2.dp) {
+                Column(Modifier.statusBarsPadding()) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth().height(48.dp).padding(start = 8.dp),
+                    ) {
+                        ListChips(
+                            lists = lists,
+                            selected = selected,
+                            board = board,
+                            onSelect = viewModel::select,
+                            onNew = { listDialog = ListDialog.New },
+                            modifier = Modifier.weight(1f),
+                        )
                         val b = board
                         if (b != null && b.doneCount > 0) {
                             IconButton(onClick = viewModel::closeAllDone) {
@@ -116,7 +129,11 @@ fun BoardScreen(viewModel: MainViewModel, onOpenArchive: () -> Unit, onOpenSetti
                             }
                         }
                         IconButton(onClick = onOpenArchive) {
-                            Icon(painterResource(R.drawable.ic_archive), contentDescription = stringResource(R.string.archive))
+                            Icon(
+                                painterResource(R.drawable.ic_archive),
+                                contentDescription = stringResource(R.string.archive),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
                         }
                         OverflowMenu(
                             onNewList = { listDialog = ListDialog.New },
@@ -126,14 +143,9 @@ fun BoardScreen(viewModel: MainViewModel, onOpenArchive: () -> Unit, onOpenSetti
                             onAddWidget = { selected?.let { requestPinWidget(context, it) } },
                             onSettings = onOpenSettings,
                         )
-                    },
-                )
-                ListTabs(
-                    lists = lists,
-                    selected = selected,
-                    onSelect = viewModel::select,
-                    onNew = { listDialog = ListDialog.New },
-                )
+                    }
+                    ProgressLine(board)
+                }
             }
         },
         bottomBar = { AddBar(onAdd = viewModel::addTask) },
@@ -230,7 +242,6 @@ private fun TaskList(board: Board?, padding: PaddingValues, viewModel: MainViewM
         ),
         verticalArrangement = Arrangement.spacedBy(6.dp),
     ) {
-        item(key = "progress") { ProgressHeader(board) }
         if (board != null && local.isEmpty()) {
             item(key = "empty") {
                 Text(
@@ -281,49 +292,80 @@ private fun TaskList(board: Board?, padding: PaddingValues, viewModel: MainViewM
 
 private fun speechOf(context: Context, task: TaskItem): String? = EnvyVoice.line(context, task)
 
+/** Thin progress line under the header (green = done). */
 @Composable
-private fun ProgressHeader(board: Board?) {
-    if (board == null || board.tasks.isEmpty()) return
-    val total = board.tasks.size
-    val done = board.doneCount
-    Column(Modifier.padding(horizontal = 4.dp, vertical = 4.dp)) {
-        Text(
-            stringResource(R.string.progress_long, done, total),
-            style = MaterialTheme.typography.labelLarge,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
-        Spacer(Modifier.height(6.dp))
-        LinearProgressIndicator(
-            progress = { if (total == 0) 0f else done.toFloat() / total },
-            color = DoneGreen,
-            modifier = Modifier.fillMaxWidth().height(6.dp).clip(CircleShape),
-        )
-    }
+private fun ProgressLine(board: Board?) {
+    val total = board?.tasks?.size ?: 0
+    val done = board?.doneCount ?: 0
+    LinearProgressIndicator(
+        progress = { if (total == 0) 0f else done.toFloat() / total },
+        color = DoneGreen,
+        trackColor = Color.Transparent,
+        gapSize = 0.dp,
+        drawStopIndicator = {},
+        modifier = Modifier.fillMaxWidth().height(3.dp),
+    )
 }
 
+/** Small pill per list; the active one is tinted in its colour and shows "done/total". */
 @Composable
-private fun ListTabs(lists: List<TaskListEntity>, selected: Long?, onSelect: (Long) -> Unit, onNew: () -> Unit) {
-    if (lists.isEmpty()) return
-    val index = lists.indexOfFirst { it.id == selected }.coerceAtLeast(0)
-    PrimaryScrollableTabRow(selectedTabIndex = index, edgePadding = 8.dp) {
-        lists.forEach { list ->
-            Tab(
-                selected = list.id == selected,
+private fun ListChips(
+    lists: List<TaskListEntity>,
+    selected: Long?,
+    board: Board?,
+    onSelect: (Long) -> Unit,
+    onNew: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val state = rememberLazyListState()
+    val index = lists.indexOfFirst { it.id == selected }
+    LaunchedEffect(index) { if (index >= 0) state.animateScrollToItem(index) }
+    LazyRow(
+        state = state,
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        items(lists, key = { it.id }) { list ->
+            val active = list.id == selected
+            Surface(
                 onClick = { onSelect(list.id) },
-                text = {
-                    Row(verticalAlignment = Alignment.CenterVertically) {
-                        Box(Modifier.size(10.dp).clip(CircleShape).background(Color(list.color)))
+                shape = CircleShape,
+                color = if (active) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                ) {
+                    Text(
+                        list.name,
+                        maxLines = 1,
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = if (active) FontWeight.Bold else FontWeight.Normal,
+                        color = if (active) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    val b = board
+                    if (active && b != null && b.tasks.isNotEmpty()) {
                         Spacer(Modifier.width(6.dp))
-                        Text(list.name, maxLines = 1)
+                        Text(
+                            stringResource(R.string.progress, b.doneCount, b.tasks.size),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
                     }
-                },
-            )
+                }
+            }
         }
-        Tab(
-            selected = false,
-            onClick = onNew,
-            icon = { Icon(painterResource(R.drawable.ic_add), contentDescription = stringResource(R.string.new_list)) },
-        )
+        item(key = "new") {
+            Surface(onClick = onNew, shape = CircleShape, color = Color.Transparent) {
+                Icon(
+                    painterResource(R.drawable.ic_add),
+                    contentDescription = stringResource(R.string.new_list),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(6.dp).size(18.dp),
+                )
+            }
+        }
     }
 }
 
@@ -367,26 +409,43 @@ private fun AddBar(onAdd: (String) -> Unit) {
             text = ""
         }
     }
-    Surface(tonalElevation = 3.dp) {
+    Surface(tonalElevation = 2.dp) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
                 .fillMaxWidth()
                 .navigationBarsPadding()
                 .imePadding()
-                .padding(horizontal = 12.dp, vertical = 8.dp),
+                .padding(horizontal = 12.dp, vertical = 6.dp),
         ) {
-            OutlinedTextField(
-                value = text,
-                onValueChange = { text = it },
-                placeholder = { Text(stringResource(R.string.add_task_hint)) },
-                singleLine = true,
-                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
-                keyboardActions = KeyboardActions(onDone = { submit() }),
-                modifier = Modifier.weight(1f),
-            )
+            // slim pill instead of a tall outlined text field
+            Surface(
+                shape = CircleShape,
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                modifier = Modifier.weight(1f).height(44.dp),
+            ) {
+                Box(contentAlignment = Alignment.CenterStart, modifier = Modifier.padding(horizontal = 16.dp)) {
+                    if (text.isEmpty()) {
+                        Text(
+                            stringResource(R.string.add_task_hint),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    BasicTextField(
+                        value = text,
+                        onValueChange = { text = it },
+                        singleLine = true,
+                        textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
+                        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences, imeAction = ImeAction.Done),
+                        keyboardActions = KeyboardActions(onDone = { submit() }),
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            }
             Spacer(Modifier.width(8.dp))
-            FilledIconButton(onClick = { submit() }, enabled = text.isNotBlank(), modifier = Modifier.size(52.dp)) {
+            FilledIconButton(onClick = { submit() }, enabled = text.isNotBlank(), modifier = Modifier.size(44.dp)) {
                 Icon(painterResource(R.drawable.ic_add), contentDescription = stringResource(R.string.add))
             }
         }

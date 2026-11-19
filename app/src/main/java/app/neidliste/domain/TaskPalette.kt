@@ -28,6 +28,15 @@ object TaskPalette {
         EnvyLevel.OBJECTION -> 0xFFB71C1C.toInt()
     }
 
+    /** Row colour for the urgency level, `null` = calm (neutral base colour). */
+    fun rowTint(level: EnvyLevel): Int? = when (level) {
+        EnvyLevel.CALM -> null
+        EnvyLevel.MILD -> 0xFFFFD54F.toInt()
+        EnvyLevel.ANNOYED -> 0xFFFF9800.toInt()
+        EnvyLevel.ANGRY -> 0xFFF44336.toInt()
+        EnvyLevel.OBJECTION -> 0xFFD32F2F.toInt()
+    }
+
     fun onEnvyColor(level: EnvyLevel): Int = when (level) {
         EnvyLevel.MILD, EnvyLevel.ANNOYED -> 0xFF3E2723.toInt()
         else -> 0xFFFFFFFF.toInt()

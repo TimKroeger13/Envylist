@@ -1,12 +1,8 @@
 package app.neidliste.ui.components
 
 import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -28,12 +24,15 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontStyle
@@ -65,25 +64,31 @@ fun TaskRow(
     modifier: Modifier = Modifier,
 ) {
     val done = task.status == TaskStatus.DONE
-    val glow = if (task.archivePending) {
-        rememberInfiniteTransition(label = "glow").animateFloat(
-            initialValue = 0.30f,
-            targetValue = 0.75f,
-            animationSpec = infiniteRepeatable(tween(450), RepeatMode.Reverse),
-            label = "glowAlpha",
-        ).value
-    } else {
-        0f
+    // Ticking the close-checkbox: one soft light-up into green, then a calm green until it leaves.
+    val glow = remember { Animatable(0f) }
+    LaunchedEffect(task.archivePending) {
+        if (task.archivePending) {
+            glow.animateTo(1f, tween(durationMillis = 180))
+            glow.animateTo(0.55f, tween(durationMillis = 900))
+        } else {
+            glow.animateTo(0f, tween(durationMillis = 250))
+        }
     }
+    // Calm base colour; only urgency (envy) adds colour.
+    val urgency = TaskPalette.rowTint(task.level)
     val base by animateColorAsState(
-        targetValue = Color(task.color).copy(alpha = if (done) 0.10f else 0.22f),
+        targetValue = when {
+            done -> MaterialTheme.colorScheme.surfaceContainerLow
+            urgency != null -> lerp(MaterialTheme.colorScheme.surfaceContainerHigh, Color(urgency), 0.30f)
+            else -> MaterialTheme.colorScheme.surfaceContainerHigh
+        },
         animationSpec = tween(350),
         label = "rowColor",
     )
-    val background = if (task.archivePending) GlowGreen.copy(alpha = glow) else base
+    val background = lerp(base, GlowGreen.copy(alpha = 0.55f), glow.value)
     val scale by animateFloatAsState(
-        targetValue = if (task.archivePending) 1.03f else 1f,
-        animationSpec = spring(dampingRatio = 0.35f),
+        targetValue = if (task.archivePending) 1.015f else 1f,
+        animationSpec = tween(220),
         label = "rowScale",
     )
 
@@ -99,7 +104,12 @@ fun TaskRow(
                 modifier = Modifier.size(width = 40.dp, height = 52.dp).clickable(onClick = onDot),
                 contentAlignment = Alignment.Center,
             ) {
-                Box(Modifier.size(16.dp).clip(CircleShape).background(Color(task.color)))
+                Icon(
+                    painterResource(R.drawable.ic_more),
+                    contentDescription = stringResource(R.string.cd_color),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.6f),
+                    modifier = Modifier.size(20.dp),
+                )
             }
             Column(
                 modifier = Modifier
@@ -162,7 +172,7 @@ fun TaskRow(
 @Composable
 fun StatusIcon(task: TaskItem, modifier: Modifier = Modifier) {
     val (icon, tint, cd) = when (task.status) {
-        TaskStatus.OPEN -> Triple(R.drawable.ic_status_open, Color(task.color), R.string.cd_status_open)
+        TaskStatus.OPEN -> Triple(R.drawable.ic_status_open, MaterialTheme.colorScheme.onSurfaceVariant, R.string.cd_status_open)
         TaskStatus.IN_PROGRESS -> Triple(R.drawable.ic_status_progress, ProgressYellow, R.string.cd_status_progress)
         TaskStatus.DONE -> Triple(R.drawable.ic_status_done, DoneGreen, R.string.cd_status_done)
     }

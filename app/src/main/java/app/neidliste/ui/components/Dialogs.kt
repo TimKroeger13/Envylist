@@ -100,7 +100,7 @@ fun ObjectionContent(objector: TaskItem, task: TaskItem, onYield: () -> Unit, on
     val message = remember(objector.id, task.id, objector.envy) { EnvyVoice.objection(context, objector, task) }
     Row(verticalAlignment = Alignment.CenterVertically) {
         Box(
-            modifier = Modifier.size(52.dp).clip(CircleShape).background(Color(objector.color)),
+            modifier = Modifier.size(52.dp).clip(CircleShape).background(Color(TaskPalette.envyColor(objector.level))),
             contentAlignment = Alignment.Center,
         ) {
             Text(TaskPalette.envyEmoji(objector.level), fontSize = 26.sp)
@@ -117,7 +117,7 @@ fun ObjectionContent(objector: TaskItem, task: TaskItem, onYield: () -> Unit, on
     }
     Spacer(Modifier.height(14.dp))
     Surface(
-        color = Color(objector.color).copy(alpha = 0.18f),
+        color = Color(TaskPalette.envyColor(objector.level)).copy(alpha = 0.18f),
         shape = RoundedCornerShape(topStart = 4.dp, topEnd = 20.dp, bottomEnd = 20.dp, bottomStart = 20.dp),
     ) {
         Text(message, style = MaterialTheme.typography.bodyLarge, modifier = Modifier.padding(14.dp))
@@ -127,8 +127,8 @@ fun ObjectionContent(objector: TaskItem, task: TaskItem, onYield: () -> Unit, on
         onClick = onYield,
         modifier = Modifier.fillMaxWidth(),
         colors = ButtonDefaults.buttonColors(
-            containerColor = Color(objector.color),
-            contentColor = contentColorOn(objector.color),
+            containerColor = Color(TaskPalette.envyColor(objector.level)),
+            contentColor = contentColorOn(TaskPalette.envyColor(objector.level)),
         ),
     ) { Text(stringResource(R.string.yield_button)) }
     TextButton(onClick = onProceed, modifier = Modifier.fillMaxWidth()) {
@@ -161,8 +161,6 @@ fun TaskEditorContent(
         keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
         modifier = Modifier.fillMaxWidth(),
     )
-    Spacer(Modifier.height(14.dp))
-    ColorPicker(selected = color, onSelect = { color = it })
     Spacer(Modifier.height(14.dp))
     Row(horizontalArrangement = Arrangement.spacedBy(8.dp), modifier = Modifier.fillMaxWidth()) {
         OutlinedButton(onClick = { onSave(title, color); onMoveTop() }, modifier = Modifier.weight(1f)) {

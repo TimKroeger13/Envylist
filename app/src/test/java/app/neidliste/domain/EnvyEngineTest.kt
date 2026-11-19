@@ -55,8 +55,9 @@ class EnvyEngineTest {
     fun mostEnviousOtherTaskObjects() {
         val tasks = listOf(item(1, 0), item(2, 21), item(3, 25), item(4, 30, TaskStatus.DONE))
         assertEquals(3L, EnvyEngine.objector(1, tasks, settings)?.id)
-        // the envious task itself may always be completed
-        assertEquals(2L, EnvyEngine.objector(3, tasks, settings)?.id)
+        // a task that is itself at objection level may always be completed, nobody complains
+        assertNull(EnvyEngine.objector(3, tasks, settings))
+        assertNull(EnvyEngine.objector(2, tasks, settings))
         assertNull(EnvyEngine.objector(1, tasks, settings.copy(enabled = false)))
         assertNull(EnvyEngine.objector(1, listOf(item(1, 0), item(2, 19)), settings))
     }

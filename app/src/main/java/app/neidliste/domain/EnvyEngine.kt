@@ -39,6 +39,9 @@ object EnvyEngine {
      */
     fun objector(taskId: Long, tasks: List<TaskItem>, settings: EnvySettings): TaskItem? {
         if (!settings.enabled) return null
+        // Finishing a task that is itself at objection level is always fine: nobody complains.
+        val self = tasks.firstOrNull { it.id == taskId }
+        if (self != null && self.envy >= settings.objection) return null
         return tasks
             .filter { it.id != taskId && it.status != TaskStatus.DONE && it.envy >= settings.objection }
             .sortedWith(compareByDescending<TaskItem> { it.envy }.thenBy { it.position })

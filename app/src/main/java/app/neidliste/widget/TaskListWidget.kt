@@ -153,13 +153,6 @@ private fun Header(board: Board, listId: Long, appWidgetId: Int) {
                 .clickable(actionStartActivity(WidgetIntents.openApp(context, listId))),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Image(
-                provider = ImageProvider(R.drawable.ic_dot),
-                contentDescription = null,
-                colorFilter = ColorFilter.tint(color(list.color)),
-                modifier = GlanceModifier.size(12.dp),
-            )
-            Spacer(GlanceModifier.width(6.dp))
             Text(
                 text = list.name,
                 maxLines = 1,
@@ -223,10 +216,13 @@ private fun HeaderIcon(icon: Int, description: Int, action: Action, tint: ColorP
 private fun TaskRow(task: TaskItem, board: Board) {
     val context = LocalContext.current
     val done = task.status == TaskStatus.DONE
+    // Calm base colour; only urgency (envy) adds colour.
+    val urgency = TaskPalette.rowTint(task.level)
     val rowColor = when {
         task.archivePending -> color(GLOW_GREEN, 0.45f)
-        done -> color(task.color, 0.10f)
-        else -> color(task.color, 0.22f)
+        done -> GlanceTheme.colors.surface
+        urgency != null -> color(urgency, 0.30f)
+        else -> GlanceTheme.colors.secondaryContainer
     }
     // Completing while another task objects opens the objection dialog instead.
     val objector = board.objectorFor(task)
@@ -242,17 +238,17 @@ private fun TaskRow(task: TaskItem, board: Board) {
                 .padding(end = 4.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            // colour dot → actions (move to top, colour, edit)
+            // ⋮ → actions (move to top, edit, reset, delete)
             Box(
-                modifier = GlanceModifier.size(width = 34.dp, height = 44.dp)
+                modifier = GlanceModifier.size(width = 30.dp, height = 44.dp)
                     .clickable(actionStartActivity(WidgetIntents.taskActions(context, task.id))),
                 contentAlignment = Alignment.Center,
             ) {
                 Image(
-                    provider = ImageProvider(R.drawable.ic_dot),
+                    provider = ImageProvider(R.drawable.ic_more),
                     contentDescription = context.getString(R.string.cd_color),
-                    colorFilter = ColorFilter.tint(color(task.color)),
-                    modifier = GlanceModifier.size(16.dp),
+                    colorFilter = ColorFilter.tint(GlanceTheme.colors.onSurfaceVariant),
+                    modifier = GlanceModifier.size(18.dp),
                 )
             }
 
@@ -312,7 +308,7 @@ private fun TaskRow(task: TaskItem, board: Board) {
 private fun StatusIcon(task: TaskItem) {
     val context = LocalContext.current
     val (icon, tint, cd) = when (task.status) {
-        TaskStatus.OPEN -> Triple(R.drawable.ic_status_open, color(task.color), R.string.cd_status_open)
+        TaskStatus.OPEN -> Triple(R.drawable.ic_status_open, GlanceTheme.colors.onSurfaceVariant, R.string.cd_status_open)
         TaskStatus.IN_PROGRESS -> Triple(R.drawable.ic_status_progress, color(PROGRESS_YELLOW), R.string.cd_status_progress)
         TaskStatus.DONE -> Triple(R.drawable.ic_status_done, color(DONE_GREEN), R.string.cd_status_done)
     }
