@@ -16,3 +16,6 @@
 keystore.properties
 tools/icon/concepts/
 tools/icon/__pycache__/
+
+# Release signing key: kept locally, never pushed
+/signing/
