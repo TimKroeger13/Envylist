@@ -35,6 +35,11 @@ object WidgetIntents {
         .putExtra(EXTRA_OBJECTOR_ID, objectorId)
         .addFlags(FLAGS)
 
+    fun envyInfo(context: Context, taskId: Long) = Intent(context, EnvyInfoActivity::class.java)
+        .setData("neidliste://envy/$taskId".toUri())
+        .putExtra(EXTRA_TASK_ID, taskId)
+        .addFlags(FLAGS)
+
     fun configure(context: Context, appWidgetId: Int) = Intent(context, WidgetConfigActivity::class.java)
         .setData("neidliste://configure/$appWidgetId".toUri())
         .putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId)

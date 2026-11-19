@@ -79,7 +79,10 @@ import app.neidliste.data.TaskEntity
 import app.neidliste.data.TaskListEntity
 import app.neidliste.domain.EnvyVoice
 import app.neidliste.domain.TaskItem
+import app.neidliste.domain.EnvySettings
 import app.neidliste.ui.components.DialogCard
+import app.neidliste.ui.components.EnvyInfoContent
+import app.neidliste.ui.components.SymbolHelpContent
 import app.neidliste.ui.components.ObjectionContent
 import app.neidliste.ui.components.TaskEditorContent
 import app.neidliste.ui.components.TaskRow
@@ -103,6 +106,8 @@ fun BoardScreen(viewModel: MainViewModel, onOpenArchive: () -> Unit, onOpenSetti
     val objection by viewModel.objection.collectAsStateWithLifecycle()
 
     var editingTaskId by remember { mutableStateOf<Long?>(null) }
+    var envyInfoTask by remember { mutableStateOf<TaskItem?>(null) }
+    var showHelp by remember { mutableStateOf(false) }
     var listDialog by remember { mutableStateOf<ListDialog?>(null) }
 
     Scaffold(
@@ -146,6 +151,7 @@ fun BoardScreen(viewModel: MainViewModel, onOpenArchive: () -> Unit, onOpenSetti
                             onSortByEnvy = viewModel::sortByEnvy,
                             onAddWidget = { selected?.let { requestPinWidget(context, it) } },
                             onSettings = onOpenSettings,
+                            onHelp = { showHelp = true },
                         )
                     }
                     ProgressLine(board)
@@ -159,7 +165,24 @@ fun BoardScreen(viewModel: MainViewModel, onOpenArchive: () -> Unit, onOpenSetti
             padding = padding,
             viewModel = viewModel,
             onEdit = { editingTaskId = it },
+            onEnvyInfo = { envyInfoTask = it },
         )
+    }
+
+    envyInfoTask?.let { task ->
+        Dialog(onDismissRequest = { envyInfoTask = null }) {
+            DialogCard {
+                EnvyInfoContent(task, board?.settings ?: EnvySettings(), onClose = { envyInfoTask = null })
+            }
+        }
+    }
+
+    if (showHelp) {
+        Dialog(onDismissRequest = { showHelp = false }) {
+            DialogCard {
+                SymbolHelpContent(board?.settings ?: EnvySettings(), onClose = { showHelp = false })
+            }
+        }
     }
 
     editingTaskId?.let { id ->
@@ -215,7 +238,13 @@ fun BoardScreen(viewModel: MainViewModel, onOpenArchive: () -> Unit, onOpenSetti
 }
 
 @Composable
-private fun TaskList(board: Board?, padding: PaddingValues, viewModel: MainViewModel, onEdit: (Long) -> Unit) {
+private fun TaskList(
+    board: Board?,
+    padding: PaddingValues,
+    viewModel: MainViewModel,
+    onEdit: (Long) -> Unit,
+    onEnvyInfo: (TaskItem) -> Unit,
+) {
     val context = LocalContext.current
     val haptics = LocalHapticFeedback.current
     val tasks = board?.tasks.orEmpty()
@@ -293,6 +322,7 @@ private fun TaskList(board: Board?, padding: PaddingValues, viewModel: MainViewM
                         viewModel.reset(task.id)
                     },
                     onDot = { onEdit(task.id) },
+                    onEnvyInfo = { onEnvyInfo(task) },
                     onReset = { viewModel.reset(task.id) },
                     onToggleClose = {
                         haptics.performHapticFeedback(HapticFeedbackType.Confirm)
@@ -404,6 +434,7 @@ private fun OverflowMenu(
     onSortByEnvy: () -> Unit,
     onAddWidget: () -> Unit,
     onSettings: () -> Unit,
+    onHelp: () -> Unit,
 ) {
     var open by remember { mutableStateOf(false) }
     Box {
@@ -422,6 +453,7 @@ private fun OverflowMenu(
             entry(R.string.rename_list, R.drawable.ic_swap, onRenameList)
             entry(R.string.delete_list, R.drawable.ic_delete, onDeleteList)
             entry(R.string.add_widget, R.drawable.ic_dot, onAddWidget)
+            entry(R.string.help, R.drawable.ic_status_open, onHelp)
             entry(R.string.settings, R.drawable.ic_settings, onSettings)
         }
     }

@@ -315,3 +315,32 @@ class PinWidgetReceiver : BroadcastReceiver() {
         }
     }
 }
+
+// ---------------------------------------------------------------- envy info
+
+/** Tap on an envy badge in the widget: explains what the face means. */
+class EnvyInfoActivity : ComponentActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
+        val taskId = intent.getLongExtra(WidgetIntents.EXTRA_TASK_ID, -1)
+        val repo = container.repository
+        setContent {
+            NeidTheme {
+                var board by remember { mutableStateOf<app.neidliste.data.Board?>(null) }
+                LaunchedEffect(taskId) {
+                    val listId = repo.task(taskId)?.listId
+                    board = listId?.let { repo.board(it) }
+                    if (board?.tasks?.none { it.id == taskId } != false) finish()
+                }
+                DialogScaffold(onDismiss = ::finish) {
+                    val b = board
+                    val task = b?.tasks?.firstOrNull { it.id == taskId }
+                    if (b != null && task != null) {
+                        app.neidliste.ui.components.EnvyInfoContent(task, b.settings, onClose = ::finish)
+                    }
+                }
+            }
+        }
+    }
+}

@@ -67,4 +67,24 @@
     <string name="cd_more">More</string>
     <string name="cd_back">Back</string>
 
+    <string name="level_mild">Slightly jealous</string>
+    <string name="level_annoyed">Annoyed</string>
+    <string name="level_angry">Really jealous</string>
+    <string name="level_objection">Objection</string>
+    <string name="envy_from">from %d</string>
+    <string name="envy_info_watched">„%1$s“ has watched %2$d other tasks get done before it.</string>
+    <string name="envy_info_rule">Every finished task makes all other open tasks of this list a little more jealous. Finish the jealous task and it is happy again.</string>
+    <string name="envy_info_objection">From %1$d points a task objects when you start another one – and now and then pushes itself to the top.</string>
+    <string name="got_it">Got it</string>
+    <string name="cd_envy_info">Explain envy</string>
+    <string name="help">What the symbols mean</string>
+    <string name="help_open">Open – tap to start</string>
+    <string name="help_progress">In progress – tap again when done</string>
+    <string name="help_done">Done</string>
+    <string name="help_reset">Reset (or long-press the task)</string>
+    <string name="help_close">Close: glows briefly and moves to the archive. Tap again to undo.</string>
+    <string name="help_more">Task menu: move to top, edit, delete</string>
+    <string name="help_drag">Press and drag to reorder</string>
+    <string name="help_archive">Archive: everything you got done</string>
+    <string name="help_envy">Envy levels – tap for details</string>
 </resources>

@@ -61,6 +61,7 @@ fun TaskRow(
     onDot: () -> Unit,
     onReset: () -> Unit,
     onToggleClose: () -> Unit,
+    onEnvyInfo: () -> Unit,
     dragHandle: Modifier,
     modifier: Modifier = Modifier,
     kicked: Boolean = false,
@@ -161,7 +162,7 @@ fun TaskRow(
                     )
                 }
             }
-            if (task.level != EnvyLevel.CALM) EnvyBadge(task)
+            if (task.level != EnvyLevel.CALM) EnvyBadge(task, onClick = onEnvyInfo)
             if (done) {
                 IconButton(onClick = onReset) {
                     Icon(
@@ -200,13 +201,14 @@ fun StatusIcon(task: TaskItem, modifier: Modifier = Modifier) {
 }
 
 @Composable
-fun EnvyBadge(task: TaskItem) {
+fun EnvyBadge(task: TaskItem, onClick: () -> Unit) {
     Box(
         modifier = Modifier
             .padding(horizontal = 4.dp)
             .clip(RoundedCornerShape(10.dp))
             .background(Color(TaskPalette.envyColor(task.level)))
-            .padding(horizontal = 8.dp, vertical = 3.dp),
+            .clickable(onClickLabel = stringResource(R.string.cd_envy_info), onClick = onClick)
+            .padding(horizontal = 8.dp, vertical = 5.dp),
     ) {
         Text(
             text = "${TaskPalette.envyEmoji(task.level)} ${task.envy}",

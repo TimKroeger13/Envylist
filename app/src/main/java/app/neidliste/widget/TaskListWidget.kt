@@ -283,7 +283,7 @@ private fun TaskRow(task: TaskItem, board: Board) {
                 }
             }
 
-            if (task.level != EnvyLevel.CALM) EnvyBadge(task)
+            if (task.level != EnvyLevel.CALM) EnvyBadge(task, actionStartActivity(WidgetIntents.envyInfo(context, task.id)))
 
             if (done) {
                 RowIcon(
@@ -321,9 +321,10 @@ private fun StatusIcon(task: TaskItem) {
 }
 
 @Composable
-private fun EnvyBadge(task: TaskItem) {
+private fun EnvyBadge(task: TaskItem, onClick: Action) {
     Box(
         modifier = GlanceModifier.padding(horizontal = 4.dp)
+            .clickable(onClick)
             .cornerRadius(10.dp)
             .background(color(TaskPalette.envyColor(task.level)))
             .padding(horizontal = 7.dp, vertical = 3.dp),

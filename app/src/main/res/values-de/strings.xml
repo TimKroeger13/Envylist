@@ -66,4 +66,24 @@
     <string name="cd_more">Mehr</string>
     <string name="cd_back">Zurück</string>
 
+    <string name="level_mild">Leicht neidisch</string>
+    <string name="level_annoyed">Genervt</string>
+    <string name="level_angry">Richtig neidisch</string>
+    <string name="level_objection">Einspruch</string>
+    <string name="envy_from">ab %d</string>
+    <string name="envy_info_watched">„%1$s“ hat zugesehen, wie %2$d andere Aufgaben vor ihr erledigt wurden.</string>
+    <string name="envy_info_rule">Jede erledigte Aufgabe macht alle anderen offenen Aufgaben dieser Liste ein bisschen neidischer. Erledigst du die neidische Aufgabe, ist sie wieder zufrieden.</string>
+    <string name="envy_info_objection">Ab %1$d Punkten erhebt eine Aufgabe Einspruch, wenn du eine andere anfängst – und drängelt sich ab und zu selbst nach oben.</string>
+    <string name="got_it">Verstanden</string>
+    <string name="cd_envy_info">Neid erklären</string>
+    <string name="help">Symbole erklärt</string>
+    <string name="help_open">Offen – antippen zum Anfangen</string>
+    <string name="help_progress">In Arbeit – nochmal antippen, wenn erledigt</string>
+    <string name="help_done">Erledigt</string>
+    <string name="help_reset">Zurücksetzen (oder die Aufgabe lange drücken)</string>
+    <string name="help_close">Abschließen: leuchtet kurz auf und wandert ins Archiv. Nochmal tippen macht es rückgängig.</string>
+    <string name="help_more">Aufgaben-Menü: nach oben schieben, bearbeiten, löschen</string>
+    <string name="help_drag">Gedrückt halten und ziehen zum Sortieren</string>
+    <string name="help_archive">Archiv: alles, was du geschafft hast</string>
+    <string name="help_envy">Neid-Stufen – antippen für Details</string>
 </resources>

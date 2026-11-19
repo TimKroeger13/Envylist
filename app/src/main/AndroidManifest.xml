@@ -55,6 +55,12 @@
             android:theme="@style/Theme.Neidliste.Dialog"
             android:windowSoftInputMode="adjustResize" />
         <activity
+            android:name=".widget.EnvyInfoActivity"
+            android:exported="false"
+            android:excludeFromRecents="true"
+            android:taskAffinity=""
+            android:theme="@style/Theme.Neidliste.Dialog" />
+        <activity
             android:name=".widget.EnvyPromptActivity"
             android:exported="false"
             android:excludeFromRecents="true"
