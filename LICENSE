@@ -1,0 +1,46 @@
+Envylist
+Copyright (c) 2026 Tim Hochgreve. All rights reserved.
+
+This software, its source code, artwork (including the app icon), texts and the name
+"Envylist" are the property of Tim Hochgreve. The source code is published so that people
+can see how the app works. Publishing it does NOT make it open source.
+
+1. Permitted without asking
+   a) Viewing and reading the source code, for example on GitHub.
+   b) Downloading the official app builds published by the author (for example on
+      https://tkroeger.com/websites/Software/ or the GitHub releases of this repository)
+      and using them for personal, non-commercial purposes on your own devices.
+   c) Building the app from this source code and running it on your own devices for your
+      personal, non-commercial use, without passing the result on to anyone else.
+
+2. Not permitted without prior written permission of the author
+   a) Copying, publishing or distributing the software or the source code, in whole or in
+      part, including uploading it to app stores, download sites or other repositories.
+   b) Modifying the software and distributing or publishing modified versions or works
+      based on it.
+   c) Any commercial use, including selling, renting, or offering the software or a
+      service based on it.
+   d) Using the name "Envylist", the app icon or other artwork of this project for other
+      software, products or services.
+
+3. GitHub
+   By publishing on GitHub, the author grants GitHub users the rights required by the
+   GitHub Terms of Service (viewing and forking within GitHub). This grants no rights
+   beyond those terms and beyond this license.
+
+4. Contributions
+   If you send contributions (for example pull requests, patches, translations or voice
+   lines), you agree that the author may use, change and publish them as part of this
+   project under this license or any other license, without compensation.
+
+5. Third-party components
+   The app contains open-source components that remain under their own licenses
+   (Apache License 2.0). See THIRD_PARTY_NOTICES.md. This license does not restrict
+   your rights under those licenses for those components.
+
+6. No warranty
+   The software is provided "as is", without warranty of any kind, express or implied.
+   In no event shall the author be liable for any claim, damages or other liability
+   arising from the use of the software, as far as permitted by applicable law.
+
+Requests for permission: via the contact details on https://tkroeger.com/index/

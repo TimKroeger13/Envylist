@@ -91,4 +91,6 @@
     <string name="widget_bottom_inset">Space at the bottom</string>
     <string name="widget_bottom_inset_desc">If the „New task…“ bar at the bottom of the widget gets cut off (e.g. with Lawnchair or a button overlay), increase the space here.</string>
     <string name="about_copyright">© 2026 Tim Hochgreve · All rights reserved</string>
+    <string name="open_source_licenses">Open-source licenses</string>
+    <string name="close">Close</string>
 </resources>
