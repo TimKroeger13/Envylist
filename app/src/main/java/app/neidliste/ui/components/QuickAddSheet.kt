@@ -1,0 +1,213 @@
+package app.neidliste.ui.components
+
+import android.os.SystemClock
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.tween
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.slideInVertically
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.withFrameNanos
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import app.neidliste.R
+
+/**
+ * Bottom input bar that rides on top of the keyboard, like a messenger. Stays open so several
+ * tasks can be added in a row; added ones show up as little ✓ chips.
+ */
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+fun QuickAddSheet(listName: String, onAdd: (String) -> Unit, onClose: () -> Unit) {
+    var text by remember { mutableStateOf("") }
+    val added = remember { mutableStateListOf<String>() }
+    val focus = remember { FocusRequester() }
+    val keyboard = LocalSoftwareKeyboardController.current
+    val haptics = LocalHapticFeedback.current
+    var visible by remember { mutableStateOf(false) }
+
+    LaunchedEffect(Unit) { visible = true }
+    // Taps that arrive right while the sheet opens must not close it again.
+    val openedAt = remember { SystemClock.uptimeMillis() }
+    val closeFromOutside = { if (SystemClock.uptimeMillis() - openedAt > 400) onClose() }
+    val scrim by animateFloatAsState(if (visible) 0.25f else 0f, tween(200), label = "scrim")
+
+    fun submit() {
+        val title = text.trim()
+        if (title.isEmpty()) return
+        onAdd(title)
+        added.add(0, title)
+        text = ""
+        haptics.performHapticFeedback(HapticFeedbackType.Confirm)
+    }
+
+    val noRipple = remember { MutableInteractionSource() }
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = scrim))
+            .clickable(interactionSource = noRipple, indication = null, onClick = closeFromOutside),
+        contentAlignment = Alignment.BottomCenter,
+    ) {
+        AnimatedVisibility(
+            visible = visible,
+            enter = slideInVertically(tween(220)) { it } + fadeIn(tween(220)),
+        ) {
+            // The text field exists only now, so focus and keyboard are requested here.
+            LaunchedEffect(Unit) {
+                withFrameNanos { }
+                focus.requestFocus()
+                keyboard?.show()
+            }
+            Surface(
+                shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
+                tonalElevation = 6.dp,
+                shadowElevation = 12.dp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clickable(interactionSource = remember { MutableInteractionSource() }, indication = null) {},
+            ) {
+                Column(
+                    Modifier
+                        .imePadding()
+                        .navigationBarsPadding()
+                        .padding(start = 16.dp, end = 16.dp, top = 10.dp, bottom = 12.dp),
+                ) {
+                    Box(
+                        Modifier
+                            .align(Alignment.CenterHorizontally)
+                            .size(width = 36.dp, height = 4.dp)
+                            .clip(CircleShape)
+                            .background(MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.35f)),
+                    )
+                    Row(verticalAlignment = Alignment.CenterVertically) {
+                        Text(
+                            listName,
+                            style = MaterialTheme.typography.titleSmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.weight(1f).padding(start = 4.dp),
+                        )
+                        TextButton(onClick = onClose) { Text(stringResource(R.string.done_button)) }
+                    }
+                    if (added.isNotEmpty()) {
+                        FlowRow(
+                            horizontalArrangement = Arrangement.spacedBy(6.dp),
+                            verticalArrangement = Arrangement.spacedBy(6.dp),
+                            modifier = Modifier.padding(bottom = 10.dp),
+                        ) {
+                            added.take(6).forEach { title ->
+                                Surface(shape = CircleShape, color = MaterialTheme.colorScheme.secondaryContainer) {
+                                    Text(
+                                        "✓ ${title.lineSequence().first()}",
+                                        maxLines = 1,
+                                        overflow = TextOverflow.Ellipsis,
+                                        style = MaterialTheme.typography.labelLarge,
+                                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                                    )
+                                }
+                            }
+                        }
+                    }
+                    Row(verticalAlignment = Alignment.Bottom) {
+                        Surface(
+                            shape = RoundedCornerShape(26.dp),
+                            color = MaterialTheme.colorScheme.surfaceVariant,
+                            modifier = Modifier.weight(1f).heightIn(min = 52.dp),
+                        ) {
+                            Box(
+                                contentAlignment = Alignment.CenterStart,
+                                modifier = Modifier.padding(horizontal = 18.dp, vertical = 14.dp),
+                            ) {
+                                if (text.isEmpty()) {
+                                    Text(
+                                        stringResource(R.string.add_task_hint),
+                                        style = MaterialTheme.typography.bodyLarge.copy(fontSize = 17.sp),
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                    )
+                                }
+                                BasicTextField(
+                                    value = text,
+                                    onValueChange = { text = it },
+                                    maxLines = 5,
+                                    textStyle = MaterialTheme.typography.bodyLarge.copy(
+                                        fontSize = 17.sp,
+                                        color = MaterialTheme.colorScheme.onSurface,
+                                    ),
+                                    cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .focusRequester(focus)
+                                        .submitOnHardwareEnter { submit() },
+                                )
+                            }
+                        }
+                        Spacer(Modifier.width(10.dp))
+                        FilledIconButton(
+                            onClick = { submit() },
+                            enabled = text.isNotBlank(),
+                            modifier = Modifier.size(52.dp),
+                        ) {
+                            Icon(
+                                painterResource(R.drawable.ic_add),
+                                contentDescription = stringResource(R.string.add),
+                                modifier = Modifier.size(28.dp),
+                            )
+                        }
+                    }
+                    Spacer(Modifier.height(2.dp))
+                }
+            }
+        }
+    }
+}

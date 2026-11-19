@@ -45,8 +45,8 @@
             android:exported="false"
             android:excludeFromRecents="true"
             android:taskAffinity=""
-            android:theme="@style/Theme.Neidliste.Dialog"
-            android:windowSoftInputMode="adjustResize|stateVisible" />
+            android:theme="@style/Theme.Neidliste.Sheet"
+            android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
         <activity
             android:name=".widget.TaskActionsActivity"
             android:exported="false"

@@ -62,6 +62,7 @@ import app.neidliste.domain.EnvyVoice
 import app.neidliste.domain.TaskItem
 import app.neidliste.ui.components.DialogScaffold
 import app.neidliste.ui.components.ObjectionContent
+import app.neidliste.ui.components.QuickAddSheet
 import app.neidliste.ui.components.TaskEditorContent
 import app.neidliste.ui.components.submitOnHardwareEnter
 import app.neidliste.ui.theme.NeidTheme
@@ -85,56 +86,12 @@ class QuickAddActivity : ComponentActivity() {
             NeidTheme {
                 var list by remember { mutableStateOf<TaskListEntity?>(null) }
                 LaunchedEffect(listId) { list = repo.list(listId) }
-                QuickAdd(
+                QuickAddSheet(
                     listName = list?.name.orEmpty(),
                     onAdd = { title -> appLaunch { repo.addTask(listId, title) } },
                     onClose = ::finish,
                 )
             }
-        }
-    }
-}
-
-@Composable
-private fun QuickAdd(listName: String, onAdd: (String) -> Unit, onClose: () -> Unit) {
-    var text by remember { mutableStateOf("") }
-    var added by remember { mutableIntStateOf(0) }
-    val focus = remember { FocusRequester() }
-    LaunchedEffect(Unit) { focus.requestFocus() }
-
-    fun submit() {
-        if (text.isBlank()) {
-            onClose()
-        } else {
-            onAdd(text)
-            text = ""
-            added++
-        }
-    }
-
-    DialogScaffold(onDismiss = onClose) {
-        Text(listName, style = MaterialTheme.typography.titleMedium)
-        Spacer(Modifier.height(10.dp))
-        OutlinedTextField(
-            value = text,
-            onValueChange = { text = it },
-            placeholder = { Text(stringResource(R.string.add_task_hint)) },
-            maxLines = 4,
-            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
-            modifier = Modifier.fillMaxWidth().focusRequester(focus).submitOnHardwareEnter { submit() },
-        )
-        Spacer(Modifier.height(8.dp))
-        Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()) {
-            if (added > 0) {
-                Text(
-                    stringResource(R.string.added_count, added),
-                    style = MaterialTheme.typography.labelLarge,
-                    color = MaterialTheme.colorScheme.primary,
-                )
-            }
-            Spacer(Modifier.weight(1f))
-            TextButton(onClick = onClose) { Text(stringResource(R.string.done_button)) }
-            Button(onClick = { submit() }, enabled = text.isNotBlank()) { Text(stringResource(R.string.add)) }
         }
     }
 }

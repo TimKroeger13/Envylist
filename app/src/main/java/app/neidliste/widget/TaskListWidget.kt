@@ -122,19 +122,21 @@ private fun WidgetBody(board: Board?, listId: Long, appWidgetId: Int) {
                 Header(board, listId, appWidgetId)
                 Spacer(GlanceModifier.height(6.dp))
                 if (board.tasks.isEmpty()) {
-                    Box(GlanceModifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                    Box(GlanceModifier.fillMaxWidth().defaultWeight(), contentAlignment = Alignment.Center) {
                         Text(
                             text = context.getString(R.string.empty_list),
                             style = TextStyle(color = GlanceTheme.colors.onSurfaceVariant, fontSize = 13.sp),
                         )
                     }
                 } else {
-                    LazyColumn(GlanceModifier.fillMaxSize()) {
+                    LazyColumn(GlanceModifier.fillMaxWidth().defaultWeight()) {
                         items(board.tasks, itemId = { it.id }) { task ->
                             TaskRow(task, board)
                         }
                     }
                 }
+                Spacer(GlanceModifier.height(6.dp))
+                AddBar(listId)
             }
         }
     }
@@ -180,10 +182,22 @@ private fun Header(board: Board, listId: Long, appWidgetId: Int) {
                 tint = if (board.anyPending) color(GLOW_GREEN) else GlanceTheme.colors.onSurfaceVariant,
             )
         }
+    }
+}
+
+/** Wide "+ New task…" bar at the bottom, where the thumb is. */
+@Composable
+private fun AddBar(listId: Long) {
+    val context = LocalContext.current
+    Row(
+        modifier = GlanceModifier.fillMaxWidth().height(48.dp).cornerRadius(24.dp)
+            .background(GlanceTheme.colors.secondaryContainer)
+            .clickable(actionStartActivity(WidgetIntents.quickAdd(context, listId)))
+            .padding(horizontal = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
         Box(
-            modifier = GlanceModifier.size(36.dp).cornerRadius(18.dp)
-                .background(GlanceTheme.colors.primary)
-                .clickable(actionStartActivity(WidgetIntents.quickAdd(context, listId))),
+            modifier = GlanceModifier.size(36.dp).cornerRadius(18.dp).background(GlanceTheme.colors.primary),
             contentAlignment = Alignment.Center,
         ) {
             Image(
@@ -193,6 +207,11 @@ private fun Header(board: Board, listId: Long, appWidgetId: Int) {
                 modifier = GlanceModifier.size(22.dp),
             )
         }
+        Spacer(GlanceModifier.width(12.dp))
+        Text(
+            text = context.getString(R.string.add_task_hint),
+            style = TextStyle(color = GlanceTheme.colors.onSecondaryContainer, fontSize = 15.sp),
+        )
     }
 }
 

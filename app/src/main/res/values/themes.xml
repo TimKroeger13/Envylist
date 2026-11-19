@@ -11,4 +11,9 @@
         <item name="android:backgroundDimEnabled">false</item>
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
     </style>
+
+    <!-- Quick add: no window animation, the input bar slides in itself and rides on the keyboard. -->
+    <style name="Theme.Neidliste.Sheet" parent="Theme.Neidliste.Dialog">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
 </resources>
