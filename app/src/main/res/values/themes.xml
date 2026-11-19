@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.Neidliste" parent="android:Theme.Material.Light.NoActionBar">
+    <style name="Theme.Envylist" parent="android:Theme.Material.Light.NoActionBar">
         <item name="android:windowBackground">@android:color/white</item>
     </style>
 
     <!-- Small transparent activities started from the widget (quick add, actions, objections). -->
-    <style name="Theme.Neidliste.Dialog" parent="android:Theme.Translucent.NoTitleBar">
+    <style name="Theme.Envylist.Dialog" parent="android:Theme.Translucent.NoTitleBar">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:backgroundDimEnabled">false</item>
@@ -17,7 +17,7 @@
     </style>
 
     <!-- Quick add: no window animation, the input bar slides in itself and rides on the keyboard. -->
-    <style name="Theme.Neidliste.Sheet" parent="Theme.Neidliste.Dialog">
+    <style name="Theme.Envylist.Sheet" parent="Theme.Envylist.Dialog">
         <item name="android:windowAnimationStyle">@null</item>
     </style>
 </resources>

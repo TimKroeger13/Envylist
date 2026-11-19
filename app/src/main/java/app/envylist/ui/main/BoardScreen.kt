@@ -1,0 +1,574 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
+package app.envylist.ui.main
+
+import android.app.PendingIntent
+import android.appwidget.AppWidgetManager
+import android.content.ComponentName
+import android.content.Context
+import android.content.Intent
+import android.widget.Toast
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import app.envylist.R
+import app.envylist.data.Board
+import app.envylist.data.TaskEntity
+import app.envylist.data.TaskListEntity
+import app.envylist.domain.EnvyVoice
+import app.envylist.domain.TaskItem
+import app.envylist.domain.EnvySettings
+import app.envylist.ui.components.DialogCard
+import app.envylist.ui.components.EnvyInfoContent
+import app.envylist.ui.components.SymbolHelpContent
+import app.envylist.ui.components.ObjectionContent
+import app.envylist.ui.components.TaskEditorContent
+import app.envylist.ui.components.TaskRow
+import app.envylist.ui.components.submitOnHardwareEnter
+import app.envylist.ui.theme.DoneGreen
+import app.envylist.widget.PinWidgetReceiver
+import app.envylist.widget.TaskListWidgetReceiver
+import app.envylist.widget.WidgetIntents
+import kotlinx.coroutines.delay
+import sh.calvin.reorderable.ReorderableItem
+import sh.calvin.reorderable.rememberReorderableLazyListState
+
+private enum class ListDialog { New, Rename, Delete }
+
+@Composable
+fun BoardScreen(viewModel: MainViewModel, onOpenArchive: () -> Unit, onOpenSettings: () -> Unit) {
+    val context = LocalContext.current
+    val lists by viewModel.lists.collectAsStateWithLifecycle()
+    val selected by viewModel.selected.collectAsStateWithLifecycle()
+    val board by viewModel.board.collectAsStateWithLifecycle()
+    val objection by viewModel.objection.collectAsStateWithLifecycle()
+
+    var editingTaskId by remember { mutableStateOf<Long?>(null) }
+    var envyInfoTask by remember { mutableStateOf<TaskItem?>(null) }
+    var showHelp by remember { mutableStateOf(false) }
+    var listDialog by remember { mutableStateOf<ListDialog?>(null) }
+
+    Scaffold(
+        topBar = {
+            // One compact row: list chips on the left, actions on the right, thin progress line below.
+            Surface(tonalElevation = 2.dp) {
+                Column(Modifier.statusBarsPadding()) {
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        modifier = Modifier.fillMaxWidth().height(48.dp).padding(start = 8.dp),
+                    ) {
+                        ListChips(
+                            lists = lists,
+                            selected = selected,
+                            board = board,
+                            onSelect = viewModel::select,
+                            onNew = { listDialog = ListDialog.New },
+                            modifier = Modifier.weight(1f),
+                        )
+                        val b = board
+                        if (b != null && b.doneCount > 0) {
+                            IconButton(onClick = viewModel::closeAllDone) {
+                                Icon(
+                                    painterResource(if (b.anyPending) R.drawable.ic_checkbox_checked else R.drawable.ic_checkbox_empty),
+                                    contentDescription = stringResource(R.string.close_all_done),
+                                    tint = if (b.anyPending) DoneGreen else MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
+                        }
+                        IconButton(onClick = onOpenArchive) {
+                            Icon(
+                                painterResource(R.drawable.ic_archive),
+                                contentDescription = stringResource(R.string.archive),
+                                tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                        OverflowMenu(
+                            onNewList = { listDialog = ListDialog.New },
+                            onRenameList = { listDialog = ListDialog.Rename },
+                            onDeleteList = { listDialog = ListDialog.Delete },
+                            onSortByEnvy = viewModel::sortByEnvy,
+                            onAddWidget = { selected?.let { requestPinWidget(context, it) } },
+                            onSettings = onOpenSettings,
+                            onHelp = { showHelp = true },
+                        )
+                    }
+                    ProgressLine(board)
+                }
+            }
+        },
+        bottomBar = { AddBar(onAdd = viewModel::addTask) },
+    ) { padding ->
+        TaskList(
+            board = board,
+            padding = padding,
+            viewModel = viewModel,
+            onEdit = { editingTaskId = it },
+            onEnvyInfo = { envyInfoTask = it },
+        )
+    }
+
+    envyInfoTask?.let { task ->
+        Dialog(onDismissRequest = { envyInfoTask = null }) {
+            DialogCard {
+                EnvyInfoContent(task, board?.settings ?: EnvySettings(), onClose = { envyInfoTask = null })
+            }
+        }
+    }
+
+    if (showHelp) {
+        Dialog(onDismissRequest = { showHelp = false }) {
+            DialogCard {
+                SymbolHelpContent(board?.settings ?: EnvySettings(), onClose = { showHelp = false })
+            }
+        }
+    }
+
+    editingTaskId?.let { id ->
+        TaskEditorDialog(viewModel, id, onDismiss = { editingTaskId = null })
+    }
+
+    objection?.let { o ->
+        Dialog(onDismissRequest = viewModel::dismissObjection) {
+            DialogCard {
+                ObjectionContent(
+                    objector = o.objector,
+                    task = o.task,
+                    onYield = {
+                        viewModel.yieldToObjector()
+                        Toast.makeText(context, EnvyVoice.thanks(context), Toast.LENGTH_SHORT).show()
+                    },
+                    onProceed = {
+                        viewModel.proceedAnyway()
+                        Toast.makeText(context, EnvyVoice.huff(context), Toast.LENGTH_SHORT).show()
+                    },
+                )
+            }
+        }
+    }
+
+    val currentList = lists.firstOrNull { it.id == selected }
+    when (listDialog) {
+        ListDialog.New -> NameDialog(
+            title = stringResource(R.string.new_list),
+            initial = "",
+            onConfirm = { viewModel.createList(it); listDialog = null },
+            onDismiss = { listDialog = null },
+        )
+        ListDialog.Rename -> NameDialog(
+            title = stringResource(R.string.rename_list),
+            initial = currentList?.name.orEmpty(),
+            onConfirm = { viewModel.renameList(it); listDialog = null },
+            onDismiss = { listDialog = null },
+        )
+        ListDialog.Delete -> AlertDialog(
+            onDismissRequest = { listDialog = null },
+            title = { Text(stringResource(R.string.delete_list)) },
+            text = { Text(stringResource(R.string.delete_list_confirm, currentList?.name.orEmpty())) },
+            confirmButton = {
+                TextButton(onClick = { viewModel.deleteList(); listDialog = null }) {
+                    Text(stringResource(R.string.delete), color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = { TextButton(onClick = { listDialog = null }) { Text(stringResource(R.string.cancel)) } },
+        )
+        null -> Unit
+    }
+}
+
+@Composable
+private fun TaskList(
+    board: Board?,
+    padding: PaddingValues,
+    viewModel: MainViewModel,
+    onEdit: (Long) -> Unit,
+    onEnvyInfo: (TaskItem) -> Unit,
+) {
+    val context = LocalContext.current
+    val haptics = LocalHapticFeedback.current
+    val tasks = board?.tasks.orEmpty()
+
+    // Local copy only while dragging, so the list follows the finger before the database catches up.
+    // Otherwise always show the real data (no "all done" flash while loading).
+    var local by remember { mutableStateOf(tasks) }
+    var dragging by remember { mutableStateOf(false) }
+    var settling by remember { mutableStateOf(false) } // dropped, waiting for the saved order
+    LaunchedEffect(tasks) { settling = false }
+    val shown = if (dragging || settling) local else tasks
+
+    val listState = rememberLazyListState()
+
+    // A long-jealous task shoved itself to the top: scroll up, let it wiggle and shout for a moment.
+    var kickedId by remember { mutableStateOf<Long?>(null) }
+    LaunchedEffect(Unit) {
+        viewModel.kicks.collect { id ->
+            kickedId = id
+            haptics.performHapticFeedback(HapticFeedbackType.Reject)
+            listState.animateScrollToItem(0)
+        }
+    }
+    LaunchedEffect(kickedId) {
+        if (kickedId != null) {
+            delay(3_500)
+            kickedId = null
+        }
+    }
+
+    val reorderState = rememberReorderableLazyListState(listState) { from, to ->
+        val fromIdx = local.indexOfFirst { it.id == from.key }
+        val toIdx = local.indexOfFirst { it.id == to.key }
+        if (fromIdx >= 0 && toIdx >= 0) {
+            local = local.toMutableList().apply { add(toIdx, removeAt(fromIdx)) }
+            haptics.performHapticFeedback(HapticFeedbackType.SegmentFrequentTick)
+        }
+    }
+
+    LazyColumn(
+        state = listState,
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(
+            start = 12.dp,
+            end = 12.dp,
+            top = padding.calculateTopPadding() + 8.dp,
+            bottom = padding.calculateBottomPadding() + 12.dp,
+        ),
+        verticalArrangement = Arrangement.spacedBy(6.dp),
+    ) {
+        if (board != null && board.tasks.isEmpty()) {
+            item(key = "empty") {
+                Text(
+                    stringResource(R.string.empty_list),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.fillMaxWidth().padding(vertical = 48.dp),
+                )
+            }
+        }
+        items(shown, key = { it.id }) { task ->
+            ReorderableItem(reorderState, key = task.id) { isDragging ->
+                val elevation by animateDpAsState(if (isDragging) 10.dp else 0.dp, label = "dragElevation")
+                TaskRow(
+                    task = task,
+                    speech = if (kickedId == task.id) EnvyVoice.kick(context, task) else speechOf(context, task),
+                    kicked = kickedId == task.id,
+                    onTap = {
+                        haptics.performHapticFeedback(HapticFeedbackType.ContextClick)
+                        viewModel.cycle(task.id)
+                    },
+                    onLongPress = {
+                        haptics.performHapticFeedback(HapticFeedbackType.LongPress)
+                        viewModel.reset(task.id)
+                    },
+                    onDot = { onEdit(task.id) },
+                    onEnvyInfo = { onEnvyInfo(task) },
+                    onReset = { viewModel.reset(task.id) },
+                    onToggleClose = {
+                        haptics.performHapticFeedback(HapticFeedbackType.Confirm)
+                        viewModel.toggleClose(task.id)
+                    },
+                    dragHandle = Modifier.draggableHandle(
+                        onDragStarted = {
+                            local = tasks
+                            dragging = true
+                            haptics.performHapticFeedback(HapticFeedbackType.GestureThresholdActivate)
+                        },
+                        onDragStopped = {
+                            settling = local.map { it.id } != tasks.map { it.id }
+                            dragging = false
+                            viewModel.reorder(local.map { it.id })
+                        },
+                    ),
+                    modifier = Modifier.shadow(elevation, MaterialTheme.shapes.large),
+                )
+            }
+        }
+    }
+}
+
+private fun speechOf(context: Context, task: TaskItem): String? = EnvyVoice.line(context, task)
+
+/** Thin progress line under the header (green = done). */
+@Composable
+private fun ProgressLine(board: Board?) {
+    val total = board?.tasks?.size ?: 0
+    val done = board?.doneCount ?: 0
+    LinearProgressIndicator(
+        progress = { if (total == 0) 0f else done.toFloat() / total },
+        color = DoneGreen,
+        trackColor = Color.Transparent,
+        gapSize = 0.dp,
+        drawStopIndicator = {},
+        modifier = Modifier.fillMaxWidth().height(3.dp),
+    )
+}
+
+/** Small pill per list; the active one is tinted in its colour and shows "done/total". */
+@Composable
+private fun ListChips(
+    lists: List<TaskListEntity>,
+    selected: Long?,
+    board: Board?,
+    onSelect: (Long) -> Unit,
+    onNew: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val state = rememberLazyListState()
+    val index = lists.indexOfFirst { it.id == selected }
+    LaunchedEffect(index) { if (index >= 0) state.animateScrollToItem(index) }
+    LazyRow(
+        state = state,
+        modifier = modifier,
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        items(lists, key = { it.id }) { list ->
+            val active = list.id == selected
+            Surface(
+                onClick = { onSelect(list.id) },
+                shape = CircleShape,
+                color = if (active) MaterialTheme.colorScheme.secondaryContainer else Color.Transparent,
+            ) {
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+                ) {
+                    Text(
+                        list.name,
+                        maxLines = 1,
+                        style = MaterialTheme.typography.labelLarge,
+                        fontWeight = if (active) FontWeight.Bold else FontWeight.Normal,
+                        color = if (active) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    val b = board
+                    if (active && b != null && b.tasks.isNotEmpty()) {
+                        Spacer(Modifier.width(6.dp))
+                        Text(
+                            stringResource(R.string.progress, b.doneCount, b.tasks.size),
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                }
+            }
+        }
+        item(key = "new") {
+            Surface(onClick = onNew, shape = CircleShape, color = Color.Transparent) {
+                Icon(
+                    painterResource(R.drawable.ic_add),
+                    contentDescription = stringResource(R.string.new_list),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(6.dp).size(18.dp),
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun OverflowMenu(
+    onNewList: () -> Unit,
+    onRenameList: () -> Unit,
+    onDeleteList: () -> Unit,
+    onSortByEnvy: () -> Unit,
+    onAddWidget: () -> Unit,
+    onSettings: () -> Unit,
+    onHelp: () -> Unit,
+) {
+    var open by remember { mutableStateOf(false) }
+    Box {
+        IconButton(onClick = { open = true }) {
+            Icon(painterResource(R.drawable.ic_more), contentDescription = stringResource(R.string.cd_more))
+        }
+        DropdownMenu(expanded = open, onDismissRequest = { open = false }) {
+            @Composable
+            fun entry(text: Int, icon: Int, action: () -> Unit) = DropdownMenuItem(
+                text = { Text(stringResource(text)) },
+                leadingIcon = { Icon(painterResource(icon), contentDescription = null) },
+                onClick = { open = false; action() },
+            )
+            entry(R.string.sort_by_envy, R.drawable.ic_sort, onSortByEnvy)
+            entry(R.string.new_list, R.drawable.ic_add, onNewList)
+            entry(R.string.rename_list, R.drawable.ic_swap, onRenameList)
+            entry(R.string.delete_list, R.drawable.ic_delete, onDeleteList)
+            entry(R.string.add_widget, R.drawable.ic_dot, onAddWidget)
+            entry(R.string.help, R.drawable.ic_status_open, onHelp)
+            entry(R.string.settings, R.drawable.ic_settings, onSettings)
+        }
+    }
+}
+
+@Composable
+private fun AddBar(onAdd: (String) -> Unit) {
+    var text by remember { mutableStateOf("") }
+    fun submit() {
+        if (text.isNotBlank()) {
+            onAdd(text)
+            text = ""
+        }
+    }
+    Surface(tonalElevation = 2.dp) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            modifier = Modifier
+                .fillMaxWidth()
+                .navigationBarsPadding()
+                .imePadding()
+                .padding(horizontal = 12.dp, vertical = 6.dp),
+        ) {
+            // slim pill instead of a tall outlined text field; grows for multi-line titles
+            Surface(
+                shape = RoundedCornerShape(22.dp),
+                color = MaterialTheme.colorScheme.surfaceVariant,
+                modifier = Modifier.weight(1f).heightIn(min = 44.dp),
+            ) {
+                Box(
+                    contentAlignment = Alignment.CenterStart,
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 11.dp),
+                ) {
+                    if (text.isEmpty()) {
+                        Text(
+                            stringResource(R.string.add_task_hint),
+                            style = MaterialTheme.typography.bodyLarge,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    BasicTextField(
+                        value = text,
+                        onValueChange = { text = it },
+                        maxLines = 4,
+                        textStyle = MaterialTheme.typography.bodyLarge.copy(color = MaterialTheme.colorScheme.onSurface),
+                        cursorBrush = SolidColor(MaterialTheme.colorScheme.primary),
+                        keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+                        modifier = Modifier.fillMaxWidth().submitOnHardwareEnter { submit() },
+                    )
+                }
+            }
+            Spacer(Modifier.width(8.dp))
+            FilledIconButton(onClick = { submit() }, enabled = text.isNotBlank(), modifier = Modifier.size(44.dp)) {
+                Icon(painterResource(R.drawable.ic_add), contentDescription = stringResource(R.string.add))
+            }
+        }
+    }
+}
+
+@Composable
+private fun NameDialog(title: String, initial: String, onConfirm: (String) -> Unit, onDismiss: () -> Unit) {
+    var name by remember { mutableStateOf(initial) }
+    AlertDialog(
+        onDismissRequest = onDismiss,
+        title = { Text(title) },
+        text = {
+            OutlinedTextField(
+                value = name,
+                onValueChange = { name = it },
+                label = { Text(stringResource(R.string.list_name)) },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Sentences),
+            )
+        },
+        confirmButton = {
+            TextButton(onClick = { onConfirm(name) }, enabled = name.isNotBlank()) { Text(stringResource(R.string.save)) }
+        },
+        dismissButton = { TextButton(onClick = onDismiss) { Text(stringResource(R.string.cancel)) } },
+    )
+}
+
+@Composable
+private fun TaskEditorDialog(viewModel: MainViewModel, taskId: Long, onDismiss: () -> Unit) {
+    var task by remember { mutableStateOf<TaskEntity?>(null) }
+    LaunchedEffect(taskId) {
+        task = viewModel.loadTask(taskId)
+        if (task == null) onDismiss()
+    }
+    val t = task ?: return
+    Dialog(onDismissRequest = onDismiss) {
+        DialogCard {
+            TaskEditorContent(
+                task = t,
+                onSave = { title, color -> viewModel.editTask(t.id, title, color) },
+                onMoveTop = { viewModel.moveToTop(t.id); onDismiss() },
+                onMove = { delta -> viewModel.moveBy(t.id, delta) },
+                onReset = { viewModel.reset(t.id); onDismiss() },
+                onDelete = { viewModel.deleteTask(t.id); onDismiss() },
+                onDismiss = onDismiss,
+            )
+        }
+    }
+}
+
+private fun requestPinWidget(context: Context, listId: Long) {
+    val manager = AppWidgetManager.getInstance(context)
+    if (!manager.isRequestPinAppWidgetSupported) {
+        Toast.makeText(context, R.string.add_widget_unsupported, Toast.LENGTH_LONG).show()
+        return
+    }
+    val callback = PendingIntent.getBroadcast(
+        context,
+        listId.toInt(),
+        Intent(context, PinWidgetReceiver::class.java).putExtra(WidgetIntents.EXTRA_LIST_ID, listId),
+        PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE,
+    )
+    manager.requestPinAppWidget(ComponentName(context, TaskListWidgetReceiver::class.java), null, callback)
+}

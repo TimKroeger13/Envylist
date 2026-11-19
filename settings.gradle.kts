@@ -14,5 +14,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "Neidliste"
+rootProject.name = "Envylist"
 include(":app")

@@ -1,4 +1,4 @@
-# Neidliste
+# Envylist
 
 A playful, fully offline task and chores app for Android (made with GrapheneOS in mind),
 built around a home-screen widget that can do everything the app can.

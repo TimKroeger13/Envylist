@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name" translatable="false">Neidliste</string>
+    <string name="app_name" translatable="false">Envylist</string>
     <string name="default_list_name">My tasks</string>
     <string name="widget_description">Your list with jealous tasks, right on the home screen</string>
 
@@ -90,4 +90,5 @@
     <string name="settings_widget">Widget</string>
     <string name="widget_bottom_inset">Space at the bottom</string>
     <string name="widget_bottom_inset_desc">If the „New task…“ bar at the bottom of the widget gets cut off (e.g. with Lawnchair or a button overlay), increase the space here.</string>
+    <string name="about_copyright">© 2026 Tim Hochgreve · All rights reserved</string>
 </resources>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
-    Neidliste works fully offline: there is intentionally NO android.permission.INTERNET.
+    Envylist works fully offline: there is intentionally NO android.permission.INTERNET.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
@@ -9,14 +9,14 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" tools:node="remove" />
 
     <application
-        android:name=".NeidApp"
+        android:name=".EnvylistApp"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Neidliste">
+        android:theme="@style/Theme.Envylist">
 
         <activity
             android:name=".ui.main.MainActivity"
@@ -35,7 +35,7 @@
             android:exported="true"
             android:excludeFromRecents="true"
             android:taskAffinity=""
-            android:theme="@style/Theme.Neidliste.Dialog">
+            android:theme="@style/Theme.Envylist.Dialog">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE" />
             </intent-filter>
@@ -45,27 +45,27 @@
             android:exported="false"
             android:excludeFromRecents="true"
             android:taskAffinity=""
-            android:theme="@style/Theme.Neidliste.Sheet"
+            android:theme="@style/Theme.Envylist.Sheet"
             android:windowSoftInputMode="adjustResize|stateAlwaysVisible" />
         <activity
             android:name=".widget.TaskActionsActivity"
             android:exported="false"
             android:excludeFromRecents="true"
             android:taskAffinity=""
-            android:theme="@style/Theme.Neidliste.Dialog"
+            android:theme="@style/Theme.Envylist.Dialog"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".widget.EnvyInfoActivity"
             android:exported="false"
             android:excludeFromRecents="true"
             android:taskAffinity=""
-            android:theme="@style/Theme.Neidliste.Dialog" />
+            android:theme="@style/Theme.Envylist.Dialog" />
         <activity
             android:name=".widget.EnvyPromptActivity"
             android:exported="false"
             android:excludeFromRecents="true"
             android:taskAffinity=""
-            android:theme="@style/Theme.Neidliste.Dialog" />
+            android:theme="@style/Theme.Envylist.Dialog" />
 
         <receiver
             android:name=".widget.TaskListWidgetReceiver"

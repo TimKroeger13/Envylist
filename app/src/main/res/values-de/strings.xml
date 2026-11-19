@@ -89,4 +89,5 @@
     <string name="settings_widget">Widget</string>
     <string name="widget_bottom_inset">Abstand unten</string>
     <string name="widget_bottom_inset_desc">Wird die Leiste „Neue Aufgabe…“ unten im Widget abgeschnitten (z. B. bei Lawnchair oder durch ein Button-Overlay), hier den Abstand erhöhen.</string>
+    <string name="about_copyright">© 2026 Tim Hochgreve · Alle Rechte vorbehalten</string>
 </resources>
