@@ -22,6 +22,21 @@ class DebugReceiver : BroadcastReceiver() {
                         val listId = c.repository.ensureDefaultList()
                         c.repository.addTask(listId, intent.getStringExtra("title").orEmpty())
                     }
+                    "sizes" -> {
+                        val mgr = android.appwidget.AppWidgetManager.getInstance(context)
+                        val ids = mgr.getAppWidgetIds(
+                            android.content.ComponentName(context, app.neidliste.widget.TaskListWidgetReceiver::class.java),
+                        )
+                        ids.forEach { id ->
+                            val o = mgr.getAppWidgetOptions(id)
+                            android.util.Log.i(
+                                "NeidSizes",
+                                "id=$id minW=${o.getInt("appWidgetMinWidth")} maxW=${o.getInt("appWidgetMaxWidth")} " +
+                                    "minH=${o.getInt("appWidgetMinHeight")} maxH=${o.getInt("appWidgetMaxHeight")} " +
+                                    "sizes=${o.get("appWidgetSizes")}",
+                            )
+                        }
+                    }
                     "envy" -> c.settings.update {
                         it.copy(
                             level1 = intent.getIntExtra("l1", it.level1),
