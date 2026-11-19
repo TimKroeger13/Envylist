@@ -84,8 +84,9 @@ class TaskListWidget : GlanceAppWidget() {
         provideContent {
             val listId = currentState<Preferences>()[ListIdKey] ?: fallbackListId
             val board by remember(listId) { repo.observeBoard(listId) }.collectAsState(initial = null)
+            val bottomInset by remember { context.container.settings.widgetBottomInset }.collectAsState(initial = 0)
             GlanceTheme {
-                WidgetBody(board, listId, appWidgetId)
+                WidgetBody(board, listId, appWidgetId, bottomInset)
             }
         }
     }
@@ -101,14 +102,14 @@ private fun color(argb: Int, alpha: Float = 1f): ColorProvider {
 }
 
 @Composable
-private fun WidgetBody(board: Board?, listId: Long, appWidgetId: Int) {
+private fun WidgetBody(board: Board?, listId: Long, appWidgetId: Int, bottomInset: Int) {
     val context = LocalContext.current
     Column(
         modifier = GlanceModifier
             .fillMaxSize()
             .background(GlanceTheme.colors.widgetBackground)
             .cornerRadius(24.dp)
-            .padding(horizontal = 10.dp, vertical = 10.dp),
+            .padding(start = 10.dp, end = 10.dp, top = 10.dp, bottom = (10 + bottomInset).dp),
     ) {
         when {
             board == null -> Unit

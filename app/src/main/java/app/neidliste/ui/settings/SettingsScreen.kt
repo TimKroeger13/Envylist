@@ -36,6 +36,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import app.neidliste.R
+import app.neidliste.data.SettingsRepository
 import app.neidliste.domain.EnvyLevel
 import app.neidliste.domain.TaskPalette
 import app.neidliste.ui.main.MainViewModel
@@ -43,6 +44,7 @@ import app.neidliste.ui.main.MainViewModel
 @Composable
 fun SettingsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
     val s by viewModel.settings.collectAsStateWithLifecycle()
+    val inset by viewModel.widgetBottomInset.collectAsStateWithLifecycle()
 
     Scaffold(
         topBar = {
@@ -88,6 +90,28 @@ fun SettingsScreen(viewModel: MainViewModel, onBack: () -> Unit) {
             Stepper(R.string.envy_objection, EnvyLevel.OBJECTION, s.objection, s.level3 + 1, 99, s.enabled) { v ->
                 viewModel.updateSettings { it.copy(objection = v) }
             }
+
+            Spacer(Modifier.height(24.dp))
+            Text(stringResource(R.string.settings_widget), style = MaterialTheme.typography.titleMedium)
+            Row(verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth().padding(vertical = 6.dp)) {
+                Text(stringResource(R.string.widget_bottom_inset), style = MaterialTheme.typography.bodyLarge, modifier = Modifier.weight(1f))
+                FilledTonalIconButton(onClick = { viewModel.setWidgetBottomInset(inset - 4) }, enabled = inset > 0) { Text("−") }
+                Text(
+                    "$inset dp",
+                    textAlign = TextAlign.Center,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier.widthIn(min = 56.dp),
+                )
+                FilledTonalIconButton(
+                    onClick = { viewModel.setWidgetBottomInset(inset + 4) },
+                    enabled = inset < SettingsRepository.MAX_WIDGET_INSET,
+                ) { Text("+") }
+            }
+            Text(
+                stringResource(R.string.widget_bottom_inset_desc),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
 
             Spacer(Modifier.height(20.dp))
             Surface(

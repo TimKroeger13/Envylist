@@ -138,6 +138,13 @@ class MainViewModel(
 
     fun updateSettings(transform: (EnvySettings) -> EnvySettings) = launch { settingsRepo.update(transform) }
 
+    val widgetBottomInset: StateFlow<Int> = settingsRepo.widgetBottomInset.stateIn(viewModelScope, started, 0)
+
+    fun setWidgetBottomInset(dp: Int) = launch {
+        settingsRepo.setWidgetBottomInset(dp)
+        repo.refreshWidgets()
+    }
+
     companion object {
         fun factory(container: AppContainer) = viewModelFactory {
             initializer { MainViewModel(container.repository, container.settings) }

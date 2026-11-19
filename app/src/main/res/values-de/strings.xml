@@ -50,7 +50,7 @@
     <string name="envy_level2">Genervt ab</string>
     <string name="envy_level3">Richtig neidisch ab</string>
     <string name="envy_objection">Einspruch ab</string>
-    <string name="envy_explainer">Jedes Mal, wenn du eine Aufgabe erledigst, bekommen alle anderen offenen Aufgaben derselben Liste einen Neidpunkt. Je mehr Punkte, desto lauter beschweren sie sich. Ab der Einspruch-Grenze meldet sich eine Aufgabe, wenn du zuerst eine andere erledigen willst. Versehentliches Abhaken rückgängig machen nimmt die Punkte wieder zurück.</string>
+    <string name="envy_explainer">Jedes Mal, wenn du eine Aufgabe erledigst, bekommen alle anderen offenen Aufgaben derselben Liste einen Neidpunkt. Je mehr Punkte, desto lauter beschweren sie sich. Ab der Einspruch-Grenze meldet sich eine Aufgabe, wenn du zuerst eine andere anfangen willst – und ab und zu drängelt sie sich selbst nach oben. Versehentliches Abhaken rückgängig machen nimmt die Punkte wieder zurück.</string>
 
     <string name="yield_button">Na gut, du zuerst</string>
     <string name="proceed_button">Sorry, ich mach das trotzdem</string>
@@ -86,4 +86,7 @@
     <string name="help_drag">Gedrückt halten und ziehen zum Sortieren</string>
     <string name="help_archive">Archiv: alles, was du geschafft hast</string>
     <string name="help_envy">Neid-Stufen – antippen für Details</string>
+    <string name="settings_widget">Widget</string>
+    <string name="widget_bottom_inset">Abstand unten</string>
+    <string name="widget_bottom_inset_desc">Wird die Leiste „Neue Aufgabe…“ unten im Widget abgeschnitten (z. B. bei Lawnchair oder durch ein Button-Overlay), hier den Abstand erhöhen.</string>
 </resources>

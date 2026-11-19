@@ -21,9 +21,21 @@ class SettingsRepository(private val context: Context) {
         val level2 = intPreferencesKey("envy_level2")
         val level3 = intPreferencesKey("envy_level3")
         val objection = intPreferencesKey("envy_objection")
+        val widgetBottomInset = intPreferencesKey("widget_bottom_inset")
     }
 
     val envy: Flow<EnvySettings> = context.settingsStore.data.map { it.toSettings() }
+
+    /** Extra space (dp) below the widget's add bar, for launchers/overlays that cut off the bottom. */
+    val widgetBottomInset: Flow<Int> = context.settingsStore.data.map { it[Keys.widgetBottomInset] ?: 0 }
+
+    suspend fun setWidgetBottomInset(dp: Int) {
+        context.settingsStore.edit { it[Keys.widgetBottomInset] = dp.coerceIn(0, MAX_WIDGET_INSET) }
+    }
+
+    companion object {
+        const val MAX_WIDGET_INSET = 64
+    }
 
     suspend fun current(): EnvySettings = envy.first()
 

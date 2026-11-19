@@ -51,7 +51,7 @@
     <string name="envy_level2">Annoyed from</string>
     <string name="envy_level3">Really jealous from</string>
     <string name="envy_objection">Objection from</string>
-    <string name="envy_explainer">Every time you finish a task, all other unfinished tasks in the same list get one envy point. The more points, the louder they complain. From the objection level on, a task speaks up when you want to finish another one first. Undoing an accidental tick takes the points back.</string>
+    <string name="envy_explainer">Every time you finish a task, all other unfinished tasks in the same list get one envy point. The more points, the louder they complain. From the objection level on, a task speaks up when you want to start another one first – and now and then it pushes itself to the top. Undoing an accidental tick takes the points back.</string>
 
     <string name="yield_button">Fine, you first</string>
     <string name="proceed_button">Sorry, doing it anyway</string>
@@ -87,4 +87,7 @@
     <string name="help_drag">Press and drag to reorder</string>
     <string name="help_archive">Archive: everything you got done</string>
     <string name="help_envy">Envy levels – tap for details</string>
+    <string name="settings_widget">Widget</string>
+    <string name="widget_bottom_inset">Space at the bottom</string>
+    <string name="widget_bottom_inset_desc">If the „New task…“ bar at the bottom of the widget gets cut off (e.g. with Lawnchair or a button overlay), increase the space here.</string>
 </resources>
