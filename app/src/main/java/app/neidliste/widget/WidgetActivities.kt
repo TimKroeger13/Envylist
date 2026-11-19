@@ -79,7 +79,7 @@ private fun Context.appLaunch(block: suspend CoroutineScope.() -> Unit) = contai
 class QuickAddActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        setupFloatingWindow()
         val listId = intent.getLongExtra(WidgetIntents.EXTRA_LIST_ID, -1)
         val repo = container.repository
         setContent {
@@ -101,7 +101,7 @@ class QuickAddActivity : ComponentActivity() {
 class TaskActionsActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        setupFloatingWindow()
         val taskId = intent.getLongExtra(WidgetIntents.EXTRA_TASK_ID, -1)
         val repo = container.repository
         setContent {
@@ -134,7 +134,7 @@ class TaskActionsActivity : ComponentActivity() {
 class EnvyPromptActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        setupFloatingWindow()
         val taskId = intent.getLongExtra(WidgetIntents.EXTRA_TASK_ID, -1)
         val objectorId = intent.getLongExtra(WidgetIntents.EXTRA_OBJECTOR_ID, -1)
         val repo = container.repository
@@ -183,7 +183,7 @@ class WidgetConfigActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        setupFloatingWindow()
         appWidgetId = intent.getIntExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, AppWidgetManager.INVALID_APPWIDGET_ID)
         setResult(Activity.RESULT_CANCELED, resultIntent())
         if (appWidgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
@@ -279,7 +279,7 @@ class PinWidgetReceiver : BroadcastReceiver() {
 class EnvyInfoActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        setupFloatingWindow()
         val taskId = intent.getLongExtra(WidgetIntents.EXTRA_TASK_ID, -1)
         val repo = container.repository
         setContent {

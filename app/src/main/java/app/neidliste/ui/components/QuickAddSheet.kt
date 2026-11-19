@@ -1,11 +1,6 @@
 package app.neidliste.ui.components
 
 import android.os.SystemClock
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -65,13 +60,10 @@ fun QuickAddSheet(listName: String, onAdd: (String) -> Unit, onClose: () -> Unit
     val focus = remember { FocusRequester() }
     val keyboard = LocalSoftwareKeyboardController.current
     val haptics = LocalHapticFeedback.current
-    var visible by remember { mutableStateOf(false) }
 
-    LaunchedEffect(Unit) { visible = true }
     // Taps that arrive right while the sheet opens must not close it again.
     val openedAt = remember { SystemClock.uptimeMillis() }
     val closeFromOutside = { if (SystemClock.uptimeMillis() - openedAt > 400) onClose() }
-    val scrim by animateFloatAsState(if (visible) 0.25f else 0f, tween(200), label = "scrim")
 
     // One task per opening: add it and close.
     fun submit() {
@@ -87,14 +79,12 @@ fun QuickAddSheet(listName: String, onAdd: (String) -> Unit, onClose: () -> Unit
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color.Black.copy(alpha = scrim))
+            .background(Color.Black.copy(alpha = 0.2f))
             .clickable(interactionSource = noRipple, indication = null, onClick = closeFromOutside),
         contentAlignment = Alignment.BottomCenter,
     ) {
-        AnimatedVisibility(
-            visible = visible,
-            enter = slideInVertically(tween(220)) { it } + fadeIn(tween(220)),
-        ) {
+        // Appears instantly and rides on the keyboard; no extra animation of its own.
+        Box(Modifier.fillMaxWidth()) {
             // The text field exists only now, so focus and keyboard are requested here.
             LaunchedEffect(Unit) {
                 withFrameNanos { }
